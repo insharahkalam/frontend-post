@@ -59,98 +59,94 @@ export default function PostContainer() {
 
     // -------- 3. Main UI Layout --------
     return (
-        <div className="min-h-screen bg-[#0b1020] px-4 py-12">
-            <div className="max-w-6xl mx-auto">
+        <div className="relative min-h-screen bg-[#071013] px-4 py-8 overflow-hidden">
+
+            {/* Glow Background */}
+            <div className="absolute top-[-120px] left-[-120px] w-[340px] h-[340px] bg-cyan-400/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-[-120px] right-[-120px] w-[340px] h-[340px] bg-emerald-400/10 rounded-full blur-3xl"></div>
+
+            <div className="max-w-6xl mx-auto relative">
 
                 {/* Header */}
-                <div className="mb-12 text-center relative">
-
-                    <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-2">
-                        Latest Community Posts
+                <div className="text-center mb-10">
+                    <h1 className="text-3xl sm:text-5xl font-serif font-bold text-white">
+                        Community Feed
                     </h1>
-
-                    <p className="text-gray-400 text-sm">
-                        Explore stories, thoughts, and ideas shared by everyone
+                    <p className="text-cyan-100/60 mt-2 text-sm">
+                        Explore stories shared by people ✨
                     </p>
-
-
                 </div>
 
-                {/* back */}
-                <div className="flex justify-end mb-10">
+                {/* Button */}
+                <div className="flex justify-end mb-8">
                     <button
                         onClick={() => navigate("/")}
-                        className="px-6 py-4 text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-pink-500 rounded-full hover:opacity-90 transition"
+                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 text-white font-medium shadow-md shadow-cyan-500/20 hover:scale-105 transition"
                     >
-                        Back to Create Post
+                        Create Post
                     </button>
                 </div>
 
-                {/* Empty State (Agar koi post na mile) */}
+                {/* Empty State */}
                 {posts.length === 0 && (
-                    <div className="text-center py-16 bg-white/5 border border-white/10 rounded-2xl max-w-md mx-auto">
-                        <p className="text-gray-400 font-medium">No posts available right now.</p>
+                    <div className="text-center py-14 bg-[#0B1B21]/80 border border-cyan-900/40 rounded-2xl backdrop-blur-xl">
+                        <p className="text-cyan-100/50 text-sm">
+                            No posts yet — be the first to share something ✨
+                        </p>
                     </div>
                 )}
 
-                {/* Responsive Cards Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+                {/* Cards Grid (ONLY ONE GRID) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
                     {posts.map((post) => (
                         <div
-                            key={post._id || post.id}
-                            className="w-full max-w-sm bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-xl hover:shadow-purple-500/10 transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md"
+                            key={post._id}
+                            className="group bg-[#0B1B21]/90 border border-cyan-900/40 rounded-2xl overflow-hidden backdrop-blur-xl shadow-[0_0_25px_rgba(34,211,238,0.06)] hover:shadow-[0_0_40px_rgba(34,211,238,0.12)] transition-all duration-300 hover:-translate-y-1"
                         >
 
-                            {/* Image Section */}
-                            <div className="relative h-48 w-full overflow-hidden bg-white/5">
-                                {post?.image ? (
+                            {/* Image */}
+                            <div className="h-44 bg-[#11252d] overflow-hidden">
+                                {post.image ? (
                                     <img
                                         src={post.image}
-                                        alt={post.title || "Post"}
-                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                        alt="post"
                                     />
                                 ) : (
-                                    // Image Fallback Icon if image is missing
-                                    <div className="w-full h-full flex items-center justify-center text-gray-600">
-                                        <svg
-                                            className="w-12 h-12"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={1.5}
-                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                            />
-                                        </svg>
+                                    <div className="h-full flex items-center justify-center text-cyan-100/30 text-sm">
+                                        No Image
                                     </div>
                                 )}
                             </div>
 
-                            {/* Content Section */}
+                            {/* Content */}
                             <div className="p-5">
-                                {/* Title */}
-                                <h2 className="text-xl font-bold text-white mb-2 line-clamp-1 group-hover:text-purple-400 transition-colors">
-                                    {post?.title || "Untitled Post"}
+
+                                <h2 className="text-white font-semibold text-lg line-clamp-1 group-hover:text-cyan-300">
+                                    {post.title || "Untitled Post"}
                                 </h2>
 
-                                {/* Content text */}
-                                <p className="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3">
-                                    {post?.content || "No description provided for this post."}
+                                <p className="text-cyan-100/50 text-sm mt-2 line-clamp-3">
+                                    {post.content || "No content available"}
                                 </p>
 
-                                {/* Card Footer */}
-                                <div className="flex items-center justify-between pt-3 border-t border-white/5">
-                                    <span className="text-xs text-gray-500">
-                                        {post?.createdAt ? new Date(post.createdAt).toLocaleDateString() : "Recent"}
+                                {/* Footer */}
+                                <div className="flex items-center justify-between mt-5 pt-3 border-t border-cyan-900/40">
+
+                                    <span className="text-[11px] text-cyan-100/40">
+                                        {post.createdAt
+                                            ? new Date(post.createdAt).toLocaleDateString()
+                                            : "Just now"}
                                     </span>
 
-                                    <button onClick={() => deletePosts(post._id)} className="text-sm font-medium text-purple-400 hover:text-purple-300 flex items-center gap-1 transition-colors group/btn">
-                                        Delete Post
+                                    <button
+                                        onClick={() => deletePosts(post._id)}
+                                        className="text-xs px-3 py-1.5 rounded-lg border border-cyan-700/40 text-cyan-200 hover:bg-cyan-500/10 hover:border-cyan-400 hover:text-white transition"
+                                    >
+                                        Delete
                                     </button>
+
                                 </div>
 
                             </div>
