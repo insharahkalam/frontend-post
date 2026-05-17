@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = import.meta.env.MODE === "development" ?
+const url = import.meta.env.VITE_MODE === "development" ?
     'http://localhost:3000/api/posts' :
     'https://backend-post-three.vercel.app/api/posts'
 
