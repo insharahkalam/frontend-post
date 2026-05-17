@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const url =
-    "http://localhost:3000/api/posts" ||
-    "https://backend-post-three.vercel.app/api/posts";
+const url = import.meta.env.MODE === "development" ?
+    'http ://localhost:3000/api/posts' :
+    'https://backend-post-three.vercel.app/api/posts'
 
 const api = axios.create({
     baseURL: url,
