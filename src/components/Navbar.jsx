@@ -11,7 +11,7 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const linkClass = ({ isActive }) =>
-        `flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-[13px] transition-all duration-150 ` +
+        `flex items-center font-semibold font-serif tracking-wide gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs transition-all duration-150 ` +
         (isActive
             ? "text-cyan-400 bg-cyan-400/[0.07] border-cyan-400/20"
             : "text-white/40 border-transparent hover:text-white/70 hover:bg-white/[0.04]");
@@ -28,7 +28,7 @@ const Navbar = () => {
                                 <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
                             </svg>
                         </div>
-                        <span className="font-serif text-[1.1rem] text-[#f0f4f5] italic">
+                        <span className="font-serif font-semibold text-[1.1rem] text-[#f0f4f5] italic">
                             Pulse<em className="text-cyan-400">Feed</em>
                         </span>
                     </NavLink>
@@ -40,14 +40,14 @@ const Navbar = () => {
                                 <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" />
                                 <rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" />
                             </svg>
-                            All Posts
+                            All Articles
                         </NavLink>
                         <NavLink to="/my-posts" className={linkClass}>
                             <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                                 <circle cx="12" cy="7" r="4" />
                             </svg>
-                            My Posts
+                            My Articles
                         </NavLink>
                     </div>
 
