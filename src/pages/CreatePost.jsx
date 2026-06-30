@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import api from "../config/axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 export default function CreatePostForm() {
-  // -------- State --------
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
@@ -13,6 +12,15 @@ export default function CreatePostForm() {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  // -------- Auth Guard --------
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please login first to create a post");
+      navigate("/");
+    }
+  }, []);
 
   // -------- Handlers --------
   const handleImageChange = (e) => {
@@ -48,7 +56,7 @@ export default function CreatePostForm() {
       console.log(res.data, "response check");
 
       toast.success("Post created successfully!");
-      navigate("/post");
+      navigate("/");
       resetForm();
     } catch (err) {
       console.error(err);
@@ -65,7 +73,6 @@ export default function CreatePostForm() {
       <Navbar />
       <div className="min-h-screen bg-[#05080a] flex items-center justify-center px-4 py-10">
 
-
         {/* Card */}
         <form
           onSubmit={handleSubmit}
@@ -73,7 +80,6 @@ export default function CreatePostForm() {
         >
           {/* ── Header ── */}
           <div className="mb-6">
-            {/* Live badge */}
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-cyan-400/[0.08] border border-cyan-400/20 text-cyan-300 text-[10.5px] font-medium uppercase tracking-widest">
               <span className="w-[5px] h-[5px] rounded-full bg-cyan-400 animate-pulse" />
               New post
@@ -134,7 +140,6 @@ export default function CreatePostForm() {
               htmlFor="image"
               className="flex items-center gap-3 px-3.5 py-2.5 rounded-[10px] bg-white/[0.025] border border-dashed border-white/10 cursor-pointer transition-all duration-150 hover:border-cyan-400/30 hover:bg-cyan-400/[0.025] group"
             >
-              {/* Icon box */}
               <div className="w-9 h-9 flex-shrink-0 rounded-lg bg-white/[0.04] border border-white/[0.07] flex items-center justify-center">
                 <svg
                   className="w-4 h-4 stroke-white/30 group-hover:stroke-cyan-400/60 transition-colors duration-150"
@@ -150,7 +155,6 @@ export default function CreatePostForm() {
                 </svg>
               </div>
 
-              {/* Text */}
               <div className="flex-1 min-w-0">
                 <span className="block text-[13px] text-white/40 group-hover:text-white/55 transition-colors duration-150">
                   {preview ? "Image selected — click to change" : "Click to upload an image"}
@@ -158,7 +162,6 @@ export default function CreatePostForm() {
                 <span className="block text-[11px] text-white/20 mt-0.5">PNG or JPG</span>
               </div>
 
-              {/* Preview thumbnail */}
               {preview && (
                 <img
                   src={preview}
@@ -179,7 +182,6 @@ export default function CreatePostForm() {
 
           {/* ── Footer ── */}
           <div className="flex items-center justify-between gap-3">
-            {/* Character progress */}
             <div className="flex items-center gap-2 flex-shrink-0">
               <div className="w-14 h-[3px] rounded-full bg-white/[0.07] overflow-hidden">
                 <div
@@ -192,7 +194,6 @@ export default function CreatePostForm() {
               </span>
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
@@ -224,7 +225,6 @@ export default function CreatePostForm() {
           </div>
         </form>
       </div>
-  
     </>
   );
 }
