@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import api from "../config/axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 import Navbar from "../components/Navbar";
 import { FaPlus } from "react-icons/fa6";
 
@@ -11,9 +12,11 @@ export default function PostContainer() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchPosts = async () => {
+        const fetchPosts = async (id) => {
+            console.log(id, "chexk id===>");
+
             try {
-                const res = await api.get("/posts/getAllPost");
+                const res = await api.get(`/posts/getMyPost/${id}`);
                 setPosts(res.data.getPost);
             } catch (err) {
                 console.error("Error fetching posts:", err);
@@ -23,6 +26,31 @@ export default function PostContainer() {
         };
         fetchPosts();
     }, []);
+
+    const deletePosts = async (id) => {
+        const result = await Swal.fire({
+            title: "Delete this article?",
+            text: "This action cannot be undone.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#22d3ee",
+            cancelButtonColor: "#3a3a3a",
+            confirmButtonText: "Yes, delete it",
+            cancelButtonText: "Cancel",
+            background: "#0c1418",
+            color: "#e8f0f2",
+        });
+        if (!result.isConfirmed) return;
+
+        try {
+            await api.delete(`/posts/delete/${id}`);
+            toast.success("Post deleted successfully!");
+            setPosts((prev) => prev.filter((post) => post._id !== id));
+        } catch (err) {
+            console.log(err);
+            toast.error("Failed to delete post");
+        }
+    };
 
     if (loading) {
         return (
@@ -56,12 +84,20 @@ export default function PostContainer() {
                         <div className="mt-3 flex items-end justify-between gap-4 flex-wrap">
                             <div>
                                 <h1 className="text-[2rem] sm:text-[2.6rem] leading-[1.1] font-serif font-normal tracking-tight text-[#f0f4f5]">
-                                    All <em className="italic text-cyan-400 font-serif">Articles</em>
+                                    My <em className="italic text-cyan-400 font-serif">Articles</em>
                                 </h1>
                                 <p className="text-xs text-white/30 font-light mt-1">
                                     A curated collection of published work
                                 </p>
                             </div>
+
+                            <button
+                                onClick={() => navigate("/create")}
+                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[9px] bg-cyan-400 text-[#05080a] text-[13px] font-bold font-serif tracking-wide transition-all duration-150 hover:bg-cyan-300 hover:-translate-y-px active:translate-y-0 shadow-[0_8px_24px_-8px_rgba(34,211,238,0.5)]"
+                            >
+                                <FaPlus />
+                                New Article
+                            </button>
                         </div>
 
                         <div className="h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent mt-6" />
@@ -137,6 +173,31 @@ export default function PostContainer() {
                                         {post.content || "No summary available."}
                                     </p>
 
+                                    {/* Footer */}
+                                    <div className="flex items-center justify-between mt-5 pt-4 border-t border-white/[0.05]">
+                                        <button
+                                            onClick={() => navigate(`/post/${post._id}`)}
+                                            className="inline-flex items-center gap-1 text-[11.5px] text-cyan-300/80 hover:text-cyan-300 font-medium tracking-wide transition-colors group/read"
+                                        >
+                                            Read article
+                                            <svg className="w-3 h-3 group-hover/read:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M5 12h14M13 5l7 7-7 7" />
+                                            </svg>
+                                        </button>
+
+                                        <button
+                                            onClick={() => deletePosts(post._id)}
+                                            aria-label="Delete"
+                                            className="inline-flex items-center justify-center w-8 h-8 rounded-[8px] border border-white/[0.07] text-white/30 hover:border-red-400/40 hover:text-red-300 hover:bg-red-400/[0.07] transition-all duration-200"
+                                        >
+                                            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                                <polyline points="3 6 5 6 21 6" />
+                                                <path d="M19 6l-1 14H6L5 6" />
+                                                <path d="M10 11v6M14 11v6" />
+                                                <path d="M9 6V4h6v2" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
                             </article>
                         ))}

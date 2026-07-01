@@ -71,7 +71,9 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
 
         setLoading(true);
         try {
-            const res = await api.post("/login", loginForm);
+            const res = await api.post("/auth/loginUser", loginForm);
+            console.log(res,"res check login kA");
+            
             toast.success("Welcome back!");
             if (res.data.token) {
                 localStorage.setItem("token", res.data.token);
@@ -95,9 +97,9 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
     // -------- Signup Submit --------
     const handleSignup = async (e) => {
         e.preventDefault();
-        const { name, email, password, confirmPassword } = signupForm;
+        const { name, email, password } = signupForm;
 
-        if (!name || !email || !password || !confirmPassword) {
+        if (!name || !email || !password) {
             toast.error("Please fill in all fields");
             return;
         }
@@ -105,8 +107,8 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
             toast.error("Password must be at least 6 characters");
             return;
         }
-        if (password !== confirmPassword) {
-            toast.error("Passwords do not match");
+        if (password.length < 6) {
+            toast.error("Passwords must be greater than 6 characters.");
             return;
         }
 
@@ -118,14 +120,14 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
             data.append("password", password);
             if (image) data.append("image", image);
 
-            await api.post("/signup", data, {
+            await api.post("/auth/users", data, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             toast.success("Account created successfully!");
             resetAll();
             switchTab("login");
         } catch (err) {
-            console.log(err);
+            console.log(err.message);
             toast.error(err?.response?.data?.message || "Something went wrong, try again");
         } finally {
             setLoading(false);
@@ -181,8 +183,8 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                             type="button"
                             onClick={() => switchTab("login")}
                             className={`flex-1 py-2 rounded-[7px] text-[12.5px] font-medium tracking-wide transition-all duration-150 ${tab === "login"
-                                    ? "bg-cyan-400 text-[#05080a]"
-                                    : "text-white/35 hover:text-white/55"
+                                ? "bg-cyan-400 text-[#05080a]"
+                                : "text-white/35 hover:text-white/55"
                                 }`}
                         >
                             Sign in
@@ -191,8 +193,8 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                             type="button"
                             onClick={() => switchTab("signup")}
                             className={`flex-1 py-2 rounded-[7px] text-[12.5px] font-medium tracking-wide transition-all duration-150 ${tab === "signup"
-                                    ? "bg-cyan-400 text-[#05080a]"
-                                    : "text-white/35 hover:text-white/55"
+                                ? "bg-cyan-400 text-[#05080a]"
+                                : "text-white/35 hover:text-white/55"
                                 }`}
                         >
                             Sign up
