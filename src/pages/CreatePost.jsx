@@ -55,7 +55,7 @@ export default function CreatePostForm() {
       const res = await api.post("/posts/create", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(res.data, "response check");
+      console.log(res, "response check");
 
       toast.success("Post created successfully!");
       navigate("/");
