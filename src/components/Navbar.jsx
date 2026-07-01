@@ -30,7 +30,7 @@ const Navbar = () => {
         localStorage.removeItem("userName");
         localStorage.removeItem("userImage");
         toast.success("Logged out");
-        navigate("/login");
+        navigate("/");
     };
 
     const openAuth = (tab) => {

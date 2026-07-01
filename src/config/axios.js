@@ -7,7 +7,7 @@ const url = import.meta.env.VITE_MODE === "development" ?
 const api = axios.create({
     baseURL: url,
     headers: {
-        "Content-Type": "application/json",
+        headers: { "Content-Type": "multipart/form-data" },
     },
 });
 

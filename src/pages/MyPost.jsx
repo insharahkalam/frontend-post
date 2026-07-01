@@ -17,7 +17,7 @@ export default function PostContainer() {
 
             try {
                 const res = await api.get(`/posts/getMyPost/${id}`);
-                setPosts(res.data.getPost);
+                setPosts(res.data.myPost);
             } catch (err) {
                 console.error("Error fetching posts:", err);
             } finally {

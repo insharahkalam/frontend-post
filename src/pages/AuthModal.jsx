@@ -430,7 +430,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
 
     const resetAll = () => {
         setLoginForm({ email: "", password: "" });
-        setSignupForm({ name: "", email: "", password: "", confirmPassword: "" });
+        setSignupForm({ name: "", email: "", password: "" });
         setImage(null);
         setImagePreview(null);
         setShowPassword(false);
@@ -496,8 +496,8 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
             handleClose();
             navigate("/");
         } catch (err) {
-            console.log(err);
-            toast.error(err?.response?.data?.message || "Invalid email or password");
+            console.log(err.message);
+            toast.error(err?.response?.data?.message );
         } finally {
             setLoading(false);
         }
