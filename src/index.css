@@ -1,1 +1,66 @@
 @import "tailwindcss";
+
+/* ============================================================
+   LONGHAND THEME — shared fonts + utility classes
+   Import this ONCE in your main.jsx or index.css, e.g.:
+   import "./styles/longhand-theme.css";
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+.font-display {
+    font-family: 'Fraunces', serif;
+}
+
+.font-body {
+    font-family: 'Inter', sans-serif;
+}
+
+.font-mono {
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+::selection {
+    background: #E8A33D;
+    color: #14171F;
+}
+
+.card-lift {
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease;
+}
+
+.card-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px -16px rgba(20, 23, 31, 0.25);
+}
+
+.img-zoom {
+    overflow: hidden;
+}
+
+.img-zoom img {
+    transition: transform 0.7s cubic-bezier(.2, .8, .2, 1);
+}
+
+.img-zoom:hover img {
+    transform: scale(1.06);
+}
+
+.focus-ring:focus-visible {
+    outline: 3px solid #E8A33D;
+    outline-offset: 3px;
+}
+
+.spine-num {
+    font-variant-numeric: tabular-nums;
+}
+
+@keyframes spin-slow {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner {
+    animation: spin-slow 0.8s linear infinite;
+}

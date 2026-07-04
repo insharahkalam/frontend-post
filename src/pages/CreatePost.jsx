@@ -231,3 +231,225 @@ export default function CreatePostForm() {
     </>
   );
 }
+
+
+// import React, { useState } from "react";
+// import toast from "react-hot-toast";
+// import api from "../config/axios";
+// import { useNavigate } from "react-router-dom";
+// import Navbar from "../components/Navbar";
+
+// const CATEGORIES = ["Technology", "Culture", "Science", "Business", "Design", "Environment"];
+
+// export default function CreatePostForm() {
+//   const [title, setTitle] = useState("");
+//   const [shortDescription, setShortDescription] = useState("");
+//   const [content, setContent] = useState("");
+//   const [category, setCategory] = useState("");
+//   const [image, setImage] = useState(null);
+//   const [preview, setPreview] = useState(null);
+//   const [loading, setLoading] = useState(false);
+
+//   const navigate = useNavigate();
+
+//   const handleImageChange = (e) => {
+//     const file = e.target.files?.[0];
+//     if (!file) return;
+//     setImage(file);
+//     setPreview(URL.createObjectURL(file));
+//   };
+
+//   const resetForm = () => {
+//     setTitle("");
+//     setShortDescription("");
+//     setContent("");
+//     setCategory("");
+//     setImage(null);
+//     setPreview(null);
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     if (!title.trim() || !shortDescription.trim() || !content.trim() || !category || !image) {
+//       toast.error("All fields are required");
+//       return;
+//     }
+
+//     const token = localStorage.getItem("token");
+//     if (!token) {
+//       toast.error("Please login first to create a post");
+//       navigate("/");
+//       return;
+//     }
+
+//     try {
+//       setLoading(true);
+//       const formData = new FormData();
+//       formData.append("title", title);
+//       formData.append("shortDescription", shortDescription);
+//       formData.append("content", content);
+//       formData.append("category", category);
+//       formData.append("image", image);
+
+//       const res = await api.post("/posts/create", formData, {
+//         headers: { "Content-Type": "multipart/form-data" },
+//       });
+//       console.log(res, 'check res create post');
+
+
+//       toast.success("Post created successfully!");
+//       navigate("/");
+//       resetForm();
+//     } catch (err) {
+//       toast.error(err?.response?.data?.message || "Failed to create post");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const charPercent = Math.round((content.length / 2000) * 100);
+
+//   return (
+//     <>
+//       <Navbar />
+//       <div className="min-h-screen bg-[#F3EFE4] flex items-center justify-center px-4 py-10">
+//         <form
+//           onSubmit={handleSubmit}
+//           className="w-full max-w-[540px] bg-[#EAE4D4] border border-[#14171F]/10 rounded-[20px] px-7 py-8"
+//         >
+//           {/* Header */}
+//           <div className="mb-6">
+//             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#E8A33D]/15 border border-[#E8A33D]/40 text-[#B23A2E] font-mono text-[10.5px] font-medium uppercase tracking-widest">
+//               <span className="w-[5px] h-[5px] rounded-full bg-[#E8A33D] animate-pulse" />
+//               New post
+//             </span>
+
+//             <h1 className="mt-3 mb-1 text-[2rem] leading-[1.15] font-display font-medium tracking-tight text-[#14171F]">
+//               Share your <em className="italic text-[#E8A33D]">story</em>
+//             </h1>
+//             <p className="text-xs text-[#14171F]/45 font-light">Publish an article to Longhand</p>
+//           </div>
+
+//           <div className="h-px bg-[#14171F]/10 mb-6" />
+
+//           {/* Title */}
+//           <div className="mb-4">
+//             <div className="flex items-center justify-between mb-1.5">
+//               <label className="text-[10.5px] font-mono font-medium uppercase tracking-[0.06em] text-[#14171F]/50">Title</label>
+//               <span className="text-[10.5px] text-[#14171F]/30 font-mono">{title.length} / 120</span>
+//             </div>
+//             <input
+//               type="text"
+//               placeholder="Write a catchy title..."
+//               value={title}
+//               onChange={(e) => setTitle(e.target.value)}
+//               maxLength={120}
+//               className="w-full px-3.5 py-2.5 rounded-[10px] bg-white border border-[#14171F]/10 text-[#14171F] text-sm placeholder:text-[#14171F]/25 outline-none transition-all duration-150 focus:border-[#E8A33D]"
+//             />
+//           </div>
+
+//           {/* Category */}
+//           <div className="mb-4">
+//             <label className="block mb-1.5 text-[10.5px] font-mono font-medium uppercase tracking-[0.06em] text-[#14171F]/50">Category</label>
+//             <select
+//               value={category}
+//               onChange={(e) => setCategory(e.target.value)}
+//               className="w-full px-3.5 py-2.5 rounded-[10px] bg-white border border-[#14171F]/10 text-[#14171F] text-sm outline-none transition-all duration-150 focus:border-[#E8A33D]"
+//             >
+//               <option value="">Select a category</option>
+//               {CATEGORIES.map((c) => (
+//                 <option key={c} value={c}>{c}</option>
+//               ))}
+//             </select>
+//           </div>
+
+//           {/* Short description */}
+//           <div className="mb-4">
+//             <div className="flex items-center justify-between mb-1.5">
+//               <label className="text-[10.5px] font-mono font-medium uppercase tracking-[0.06em] text-[#14171F]/50">Short description</label>
+//               <span className="text-[10.5px] text-[#14171F]/30 font-mono">{shortDescription.length} / 200</span>
+//             </div>
+//             <input
+//               type="text"
+//               placeholder="One line summary shown on cards..."
+//               value={shortDescription}
+//               onChange={(e) => setShortDescription(e.target.value)}
+//               maxLength={200}
+//               className="w-full px-3.5 py-2.5 rounded-[10px] bg-white border border-[#14171F]/10 text-[#14171F] text-sm placeholder:text-[#14171F]/25 outline-none transition-all duration-150 focus:border-[#E8A33D]"
+//             />
+//           </div>
+
+//           {/* Content */}
+//           <div className="mb-4">
+//             <label className="block mb-1.5 text-[10.5px] font-mono font-medium uppercase tracking-[0.06em] text-[#14171F]/50">Content</label>
+//             <textarea
+//               placeholder="Tell your story..."
+//               value={content}
+//               onChange={(e) => setContent(e.target.value)}
+//               rows={6}
+//               maxLength={2000}
+//               className="w-full px-3.5 py-2.5 rounded-[10px] bg-white border border-[#14171F]/10 text-[#14171F] text-sm placeholder:text-[#14171F]/25 outline-none resize-none leading-relaxed transition-all duration-150 focus:border-[#E8A33D]"
+//             />
+//           </div>
+
+//           {/* Image */}
+//           <div className="mb-6">
+//             <label className="block mb-1.5 text-[10.5px] font-mono font-medium uppercase tracking-[0.06em] text-[#14171F]/50">Cover image</label>
+//             <label
+//               htmlFor="image"
+//               className="flex items-center gap-3 px-3.5 py-2.5 rounded-[10px] bg-white border border-dashed border-[#14171F]/15 cursor-pointer transition-all duration-150 hover:border-[#E8A33D] group"
+//             >
+//               <div className="w-9 h-9 flex-shrink-0 rounded-lg bg-[#14171F]/5 border border-[#14171F]/10 flex items-center justify-center">
+//                 <svg className="w-4 h-4 stroke-[#14171F]/35 group-hover:stroke-[#E8A33D] transition-colors duration-150" viewBox="0 0 24 24" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+//                   <rect x="3" y="3" width="18" height="18" rx="3" />
+//                   <circle cx="8.5" cy="8.5" r="1.5" />
+//                   <path d="M21 15l-5-5L5 21" />
+//                 </svg>
+//               </div>
+//               <div className="flex-1 min-w-0">
+//                 <span className="block text-[13px] text-[#14171F]/55 group-hover:text-[#14171F]/75 transition-colors duration-150">
+//                   {preview ? "Image selected — click to change" : "Click to upload an image"}
+//                 </span>
+//                 <span className="block text-[11px] text-[#14171F]/30 mt-0.5">PNG or JPG</span>
+//               </div>
+//               {preview && <img src={preview} alt="Preview" className="w-10 h-10 flex-shrink-0 rounded-lg object-cover border border-[#14171F]/10" />}
+//             </label>
+//             <input id="image" type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+//           </div>
+
+//           {/* Footer */}
+//           <div className="flex items-center justify-between gap-3">
+//             <div className="flex items-center gap-2 flex-shrink-0">
+//               <div className="w-14 h-[3px] rounded-full bg-[#14171F]/10 overflow-hidden">
+//                 <div className="h-full rounded-full bg-[#E8A33D] transition-all duration-150" style={{ width: `${charPercent}%` }} />
+//               </div>
+//               <span className="text-[11px] text-[#14171F]/30 font-mono whitespace-nowrap">{content.length} / 2000</span>
+//             </div>
+
+//             <button
+//               type="submit"
+//               disabled={loading}
+//               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[9px] bg-[#14171F] text-[#F3EFE4] text-[13px] font-semibold tracking-wide transition-all duration-150 hover:bg-[#1E2330] hover:-translate-y-px active:translate-y-0 disabled:opacity-40 disabled:cursor-not-allowed"
+//             >
+//               {loading ? (
+//                 <>
+//                   <span className="w-3.5 h-3.5 rounded-full border-2 border-[#F3EFE4]/25 border-t-[#F3EFE4] spinner" />
+//                   Publishing…
+//                 </>
+//               ) : (
+//                 <>
+//                   Publish
+//                   <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="#F3EFE4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+//                     <path d="M22 2L11 13" />
+//                     <path d="M22 2L15 22 11 13 2 9l20-7z" />
+//                   </svg>
+//                 </>
+//               )}
+//             </button>
+//           </div>
+//         </form>
+//       </div>
+//     </>
+//   );
+// }

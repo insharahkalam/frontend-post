@@ -161,7 +161,7 @@ export default function PostContainer() {
                                             {post.content || "No summary available."}
                                         </p>
 
-                                        
+
                                     <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/[0.06]">
                                         {authorImage ? (
                                             <img
@@ -183,19 +183,19 @@ export default function PostContainer() {
                                 </div> */}
 
                                     {/* Content */}
-                                    < div className="relative flex flex-col flex-1 p-6" >
+                                    <div className="relative flex flex-col flex-1 p-6" >
                                         {/* Title */}
-                                        < h2 className="text-[#f0f4f5] font-serif font-medium text-[1.35rem] leading-[1.3] tracking-tight line-clamp-2 group-hover:text-cyan-300 transition-colors duration-300" >
+                                        < h2 className="text-[#f0f4f5] font-serif font-medium text-[1.35rem] leading-[1.3] tracking-tight line-clamp-1 group-hover:text-cyan-300 transition-colors duration-300" >
                                             {post.title || "Untitled Article"}
                                         </h2>
 
                                         {/* Content preview */}
-                                        <p className="text-white/50 text-[13.5px] font-light mt-3 leading-[1.7] line-clamp-3 flex-1 tracking-[0.01em]">
+                                        <p className="text-white/50 text-[13.5px] font-light  leading-[1.7] line-clamp-2 flex-1 tracking-[0.01em]">
                                             {post.content || "No summary available."}
                                         </p>
 
                                         {/* Author row */}
-                                        <div className="flex items-center justify-between gap-3 mt-5 pt-4 border-t border-white/[0.06]">
+                                        <div className="flex items-center justify-between gap-3 mt-2 pt-4 border-t border-white/[0.06]">
                                             <div className="flex items-center gap-2.5 min-w-0">
                                                 {authorImage ? (
                                                     <img
@@ -219,10 +219,6 @@ export default function PostContainer() {
                                                     </span>
                                                 </div>
                                             </div>
-
-                                            <span className="text-[11px] text-cyan-300/60 font-light tracking-wide whitespace-nowrap group-hover:text-cyan-300 transition-colors">
-                                                Read →
-                                            </span>
                                         </div>
                                     </div>
 
@@ -237,3 +233,116 @@ export default function PostContainer() {
         </>
     );
 }
+
+
+// import React, { useEffect, useState } from "react";
+// import api from "../config/axios";
+// import { useNavigate } from "react-router-dom";
+// import Navbar from "../components/Navbar";
+// import PostCard from "../components/Postcard";
+// import { FaPlus } from "react-icons/fa6";
+
+// const CATEGORIES = ["Technology", "Culture", "Science", "Business", "Design", "Environment"];
+
+// export default function PostContainer() {
+//     const [posts, setPosts] = useState([]);
+//     const [loading, setLoading] = useState(true);
+//     const [activeCategory, setActiveCategory] = useState("All");
+//     const navigate = useNavigate();
+
+//     useEffect(() => {
+//         const fetchPosts = async () => {
+//             try {
+//                 setLoading(true);
+//                 const res =
+//                     activeCategory === "All"
+//                         ? await api.get("/posts/getAllPost")
+//                         : await api.get(`/posts/category/${activeCategory}`);
+
+//                 setPosts(activeCategory === "All" ? res.data.getPost : res.data.posts);
+//             } catch (err) {
+//                 console.error("Error fetching posts:", err);
+//             } finally {
+//                 setLoading(false);
+//             }
+//         };
+//         fetchPosts();
+//     }, [activeCategory]);
+
+//     if (loading) {
+//         return (
+//             <div className="min-h-screen bg-[#F3EFE4] flex items-center justify-center">
+//                 <div className="flex flex-col items-center gap-4">
+//                     <div className="w-10 h-10 rounded-full border-2 border-[#14171F]/10 border-t-[#E8A33D] spinner" />
+//                     <p className="text-[#14171F]/40 text-[12px] font-mono tracking-widest uppercase">Fetching articles…</p>
+//                 </div>
+//             </div>
+//         );
+//     }
+
+//     return (
+//         <>
+//             <Navbar />
+//             <div className="min-h-screen bg-[#F3EFE4] px-4 py-10">
+//                 <div className="max-w-6xl mx-auto">
+//                     {/* Header */}
+//                     <div className="mb-10">
+//                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#E8A33D]/15 border border-[#E8A33D]/40 text-[#B23A2E] font-mono text-[10.5px] font-medium uppercase tracking-widest">
+//                             <span className="w-[5px] h-[5px] rounded-full bg-[#E8A33D] animate-pulse" />
+//                             Published
+//                         </span>
+
+//                         <div className="mt-3 flex items-center justify-between gap-4 flex-wrap">
+//                             <div>
+//                                 <h1 className="text-[2rem] sm:text-[2.6rem] leading-[1.1] font-display font-medium tracking-tight text-[#14171F]">
+//                                     All <em className="italic text-[#E8A33D]">Articles</em>
+//                                 </h1>
+//                                 <p className="text-xs text-[#14171F]/45 font-light mt-1">A curated collection of published work</p>
+//                             </div>
+
+//                             <button
+//                                 onClick={() => navigate("/create")}
+//                                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E8A33D] text-[#14171F] text-[13px] font-bold tracking-wide transition-all duration-150 hover:bg-[#14171F] hover:text-[#F3EFE4] hover:-translate-y-px active:translate-y-0"
+//                             >
+//                                 <FaPlus />
+//                                 New Article
+//                             </button>
+//                         </div>
+
+//                         {/* Category filter chips */}
+//                         <div className="flex flex-wrap gap-2 mt-6">
+//                             {["All", ...CATEGORIES].map((cat) => (
+//                                 <button
+//                                     key={cat}
+//                                     onClick={() => setActiveCategory(cat)}
+//                                     className={`font-mono text-xs uppercase tracking-[0.1em] px-3.5 py-1.5 rounded-full border transition-all duration-150 ${activeCategory === cat
+//                                         ? "bg-[#14171F] text-[#F3EFE4] border-[#14171F]"
+//                                         : "bg-transparent text-[#14171F]/50 border-[#14171F]/15 hover:border-[#14171F]/40"
+//                                         }`}
+//                                 >
+//                                     {cat}
+//                                 </button>
+//                             ))}
+//                         </div>
+
+//                         <div className="h-px bg-[#14171F]/10 mt-6" />
+//                     </div>
+
+//                     {/* Empty State */}
+//                     {posts.length === 0 && (
+//                         <div className="flex flex-col items-center justify-center py-20 bg-[#EAE4D4] border border-dashed border-[#14171F]/15 rounded-[20px]">
+//                             <p className="text-[#14171F]/40 text-sm font-light">Nothing published in this category yet</p>
+//                         </div>
+//                     )}
+
+//                     {/* Cards Grid */}
+//                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+//                         {posts.map((post) => (
+//                             <PostCard key={post._id} post={post} />
+//                         ))}
+//                     </div>
+//                 </div>
+//             </div>
+//         </>
+//     );
+// }
