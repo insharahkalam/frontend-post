@@ -479,7 +479,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
         setLoading(true);
         try {
             const res = await api.post("/auth/loginUser", loginForm);
-            console.log(res, "res check login kA");
+            console.log(res, "res check login....");
 
             toast.success("Welcome back!");
 
@@ -495,9 +495,14 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
             }
             handleClose();
             navigate("/");
+
         } catch (err) {
-            console.log(err.message);
-            toast.error(err?.response?.data?.message );
+            console.log("FULL ERROR:", err);
+            console.log("Response:", err?.response);
+            console.log("Status:", err?.response?.status);
+            console.log("Data:", err?.response?.data);
+            toast.error(err?.response?.data?.message || "Login failed. Please try again.");
+
         } finally {
             setLoading(false);
         }
