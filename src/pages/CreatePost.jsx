@@ -13,15 +13,6 @@ export default function CreatePostForm() {
 
   const navigate = useNavigate();
 
-  // -------- Auth Guard --------
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("Please login first to create a post");
-      navigate("/");
-    }
-  }, []);
-
   // -------- Handlers --------
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
@@ -45,17 +36,27 @@ export default function CreatePostForm() {
       return;
     }
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please login first to create a post");
+      navigate("/");
+      return;
+    }
+
     try {
       setLoading(true);
       const formData = new FormData();
       formData.append("title", title);
       formData.append("content", content);
       formData.append("image", image);
-
-      const res = await api.post("/posts/create", formData);
-      console.log(res, "response check");
       console.log(formData, 'check data');
 
+      const res = await api.post("/posts/create", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      })
+      console.log(res, "response check");
 
       toast.success("Post created successfully!");
       navigate("/");

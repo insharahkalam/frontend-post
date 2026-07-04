@@ -11,6 +11,15 @@ export default function PostContainer() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    // -------- Auth Guard --------
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            toast.error("Please login first to access this page.");
+            navigate("/");
+        }
+    }, []);
+
     useEffect(() => {
         const fetchPosts = async (id) => {
             console.log(id, "chexk id===>");
@@ -81,7 +90,7 @@ export default function PostContainer() {
                             Published
                         </span>
 
-                        <div className="mt-3 flex items-end justify-between gap-4 flex-wrap">
+                        <div className="mt-3 flex items-center justify-between gap-4 flex-wrap">
                             <div>
                                 <h1 className="text-[2rem] sm:text-[2.6rem] leading-[1.1] font-serif font-normal tracking-tight text-[#f0f4f5]">
                                     My <em className="italic text-cyan-400 font-serif">Articles</em>

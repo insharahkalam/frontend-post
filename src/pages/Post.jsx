@@ -53,7 +53,7 @@ export default function PostContainer() {
                             Published
                         </span>
 
-                        <div className="mt-3 flex items-end justify-between gap-4 flex-wrap">
+                        <div className="mt-3 flex items-center justify-between gap-4 flex-wrap">
                             <div>
                                 <h1 className="text-[2rem] sm:text-[2.6rem] leading-[1.1] font-serif font-normal tracking-tight text-[#f0f4f5]">
                                     All <em className="italic text-cyan-400 font-serif">Articles</em>
@@ -62,7 +62,17 @@ export default function PostContainer() {
                                     A curated collection of published work
                                 </p>
                             </div>
+
+                            <button
+                                onClick={() => navigate("/create")}
+                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[9px] bg-cyan-400 text-[#05080a] text-[13px] font-bold font-serif tracking-wide transition-all duration-150 hover:bg-cyan-300 hover:-translate-y-px active:translate-y-0 shadow-[0_8px_24px_-8px_rgba(34,211,238,0.5)]"
+                            >
+                                <FaPlus />
+                                New Article
+                            </button>
                         </div>
+
+
 
                         <div className="h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent mt-6" />
                     </div>
