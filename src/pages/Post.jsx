@@ -152,7 +152,7 @@ export default function PostContainer() {
                                     </div>
 
                                     {/* Content */}
-                                    <div className="relative flex flex-col flex-1 p-5">
+                                    {/* <div className="relative flex flex-col flex-1 p-5">
                                         <h2 className="text-[#e8f0f2] font-serif font-normal text-[1.15rem] leading-snug line-clamp-2 group-hover:text-cyan-300 transition-colors duration-300">
                                             {post.title || "Untitled Article"}
                                         </h2>
@@ -161,32 +161,79 @@ export default function PostContainer() {
                                             {post.content || "No summary available."}
                                         </p>
 
+                                        
+                                    <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/[0.06]">
+                                        {authorImage ? (
+                                            <img
+                                                src={authorImage}
+                                                alt={authorName}
+                                                className="w-6 h-6 flex-shrink-0 rounded-full object-cover border border-white/10"
+                                            />
+                                        ) : (
+                                            <div className="w-6 h-6 flex-shrink-0 rounded-full bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center">
+                                                <span className="text-[10px] font-medium text-cyan-300">
+                                                    {authorInitial}
+                                                </span>
+                                            </div>
+                                        )}
+                                        <span className="text-[12px] text-white/45 font-light truncate">
+                                            {authorName}
+                                        </span>
+                                    </div>
+                                </div> */}
+
+                                    {/* Content */}
+                                    < div className="relative flex flex-col flex-1 p-6" >
+                                        {/* Title */}
+                                        < h2 className="text-[#f0f4f5] font-serif font-medium text-[1.35rem] leading-[1.3] tracking-tight line-clamp-2 group-hover:text-cyan-300 transition-colors duration-300" >
+                                            {post.title || "Untitled Article"}
+                                        </h2>
+
+                                        {/* Content preview */}
+                                        <p className="text-white/50 text-[13.5px] font-light mt-3 leading-[1.7] line-clamp-3 flex-1 tracking-[0.01em]">
+                                            {post.content || "No summary available."}
+                                        </p>
+
                                         {/* Author row */}
-                                        <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/[0.06]">
-                                            {authorImage ? (
-                                                <img
-                                                    src={authorImage}
-                                                    alt={authorName}
-                                                    className="w-6 h-6 flex-shrink-0 rounded-full object-cover border border-white/10"
-                                                />
-                                            ) : (
-                                                <div className="w-6 h-6 flex-shrink-0 rounded-full bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center">
-                                                    <span className="text-[10px] font-medium text-cyan-300">
-                                                        {authorInitial}
+                                        <div className="flex items-center justify-between gap-3 mt-5 pt-4 border-t border-white/[0.06]">
+                                            <div className="flex items-center gap-2.5 min-w-0">
+                                                {authorImage ? (
+                                                    <img
+                                                        src={authorImage}
+                                                        alt={authorName}
+                                                        className="w-8 h-8 flex-shrink-0 rounded-full object-cover border border-cyan-400/20 ring-2 ring-cyan-400/5"
+                                                    />
+                                                ) : (
+                                                    <div className="w-8 h-8 flex-shrink-0 rounded-full bg-gradient-to-br from-cyan-400/20 to-cyan-400/5 border border-cyan-400/25 flex items-center justify-center">
+                                                        <span className="text-[11px] font-semibold text-cyan-300">
+                                                            {authorInitial}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                                <div className="flex flex-col min-w-0">
+                                                    <span className="text-[12.5px] text-white/75 font-medium truncate leading-tight">
+                                                        {authorName}
+                                                    </span>
+                                                    <span className="text-[10px] text-white/30 font-light uppercase tracking-[0.12em] mt-0.5">
+                                                        Author
                                                     </span>
                                                 </div>
-                                            )}
-                                            <span className="text-[12px] text-white/45 font-light truncate">
-                                                {authorName}
+                                            </div>
+
+                                            <span className="text-[11px] text-cyan-300/60 font-light tracking-wide whitespace-nowrap group-hover:text-cyan-300 transition-colors">
+                                                Read →
                                             </span>
                                         </div>
                                     </div>
+
+
+
                                 </article>
                             );
                         })}
-                    </div>
-                </div>
-            </div>
+                    </div >
+                </div >
+            </div >
         </>
     );
 }
