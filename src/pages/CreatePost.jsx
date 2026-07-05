@@ -371,8 +371,8 @@ export default function CreatePostForm() {
 
       console.log(formData, "form data check");
 
-      const res = await api.post("/posts/create", title, shortDescription, content, image, category, {
-        // headers: { "Content-Type": "multipart/form-data" },
+      const res = await api.post("/posts/create", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
 
       });
 
