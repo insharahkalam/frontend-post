@@ -1,10 +1,321 @@
+// import React, { useState } from "react";
+// import toast from "react-hot-toast";
+// import api from "../config/axios";
+// import { useNavigate } from "react-router-dom";
+// import Navbar from "../components/Navbar";
+
+// const CATEGORIES = ['Technology', 'Culture', 'Science', 'Business', 'Design', "Environment", 'Sports'];
+
+// export default function CreatePostForm() {
+//   const [title, setTitle] = useState("");
+//   const [shortDescription, setShortDescription] = useState("");
+//   const [content, setContent] = useState("");
+//   const [category, setCategory] = useState("");
+//   const [image, setImage] = useState(null);
+//   const [preview, setPreview] = useState(null);
+//   const [loading, setLoading] = useState(false);
+
+//   const navigate = useNavigate();
+
+//   const handleImageChange = (e) => {
+//     const file = e.target.files?.[0];
+//     if (!file) return;
+//     setImage(file);
+//     setPreview(URL.createObjectURL(file));
+//   };
+
+//   const resetForm = () => {
+//     setTitle("");
+//     setShortDescription("");
+//     setContent("");
+//     setCategory("");
+//     setImage(null);
+//     setPreview(null);
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     if (!title.trim() || !shortDescription.trim() || !content.trim() || !category || !image) {
+//       toast.error("All fields are required");
+//       return;
+//     }
+
+//     const token = localStorage.getItem("token");
+//     if (!token) {
+//       toast.error("Please login first to create a post");
+//       navigate("/");
+//       return;
+//     }
+
+//     try {
+//       setLoading(true);
+//       const formData = new FormData();
+//       formData.append("title", title);
+//       formData.append("shortDescription", shortDescription);
+//       formData.append("content", content);
+//       formData.append("category", category);
+//       formData.append("image", image);
+//       console.log(formData, "check data");
+
+//       const res = await api.post("/posts/create", formData, {
+//         headers: { "Content-Type": "multipart/form-data" },
+//       });
+//       console.log(res, "response check");
+
+//       toast.success("Post created successfully!");
+//       navigate("/");
+//       resetForm();
+//     } catch (err) {
+//       console.error(err.message, "error in create");
+//       toast.error(err?.response?.data?.message || "Failed to create post");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const charPercent = Math.round((content.length / 2000) * 100);
+//   const descPercent = Math.round((shortDescription.length / 160) * 100);
+
+//   return (
+//     <>
+//       <Navbar />
+//       <div className="min-h-screen bg-[#05080a] flex items-center justify-center px-4 py-10">
+
+//         <form
+//           onSubmit={handleSubmit}
+//           className="w-full max-w-[520px] bg-[#0c1418] border border-white/[0.07] rounded-[20px] px-7 py-8 shadow-[0_0_60px_rgba(0,0,0,0.6)]"
+//         >
+//           {/* ── Header ── */}
+//           <div className="mb-6">
+//             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-cyan-400/[0.08] border border-cyan-400/20 text-cyan-300 text-[10.5px] font-medium uppercase tracking-widest">
+//               <span className="w-[5px] h-[5px] rounded-full bg-cyan-400 animate-pulse" />
+//               New post
+//             </span>
+
+//             <h1 className="mt-3 mb-1 text-[2rem] leading-[1.15] font-serif font-normal tracking-tight text-[#f0f4f5]">
+//               Share your{" "}
+//               <em className="italic text-cyan-400 font-serif">story</em>
+//             </h1>
+//             <p className="text-xs text-white/30 font-light">
+//               Publish a post to your feed
+//             </p>
+//           </div>
+
+//           {/* Divider */}
+//           <div className="h-px bg-white/[0.06] mb-6" />
+
+//           {/* ── Title ── */}
+//           <div className="mb-4">
+//             <div className="flex items-center justify-between mb-1.5">
+//               <label className="text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">
+//                 Title
+//               </label>
+//               <span className="text-[10.5px] text-white/20">{title.length} / 120</span>
+//             </div>
+//             <input
+//               type="text"
+//               placeholder="Write a catchy title..."
+//               value={title}
+//               onChange={(e) => setTitle(e.target.value)}
+//               maxLength={120}
+//               className="w-full px-3.5 py-2.5 rounded-[10px] bg-white/[0.025] border border-white/[0.08]
+//                 text-[#e8f0f2] text-sm font-light placeholder:text-white/15 outline-none
+//                 transition-all duration-150 focus:border-cyan-400/40 focus:bg-cyan-400/[0.025]"
+//             />
+//           </div>
+
+//           {/* ── Short Description ── */}
+//           <div className="mb-4">
+//             <div className="flex items-center justify-between mb-1.5">
+//               <label className="text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">
+//                 Short Description
+//               </label>
+//               <span className="text-[10.5px] text-white/20">{shortDescription.length} / 160</span>
+//             </div>
+//             <div className="relative">
+//               <textarea
+//                 placeholder="A brief summary shown in previews and cards..."
+//                 value={shortDescription}
+//                 onChange={(e) => setShortDescription(e.target.value)}
+//                 rows={2}
+//                 maxLength={160}
+//                 className="w-full px-3.5 py-2.5 rounded-[10px] bg-white/[0.025] border border-white/[0.08]
+//                   text-[#e8f0f2] text-sm font-light placeholder:text-white/15 outline-none resize-none
+//                   leading-relaxed transition-all duration-150 focus:border-cyan-400/40 focus:bg-cyan-400/[0.025]"
+//               />
+//               {/* mini progress bar inside field */}
+//               <div className="absolute bottom-2.5 right-2.5 w-10 h-[2px] rounded-full bg-white/[0.07] overflow-hidden">
+//                 <div
+//                   className="h-full rounded-full bg-cyan-400/60 transition-all duration-150"
+//                   style={{ width: `${descPercent}%` }}
+//                 />
+//               </div>
+//             </div>
+//             <p className="text-[10.5px] text-white/20 mt-1.5 font-light">
+//               Shown as a preview on the feed cards.
+//             </p>
+//           </div>
+
+//           {/* ── Category ── */}
+//           <div className="mb-4">
+//             <label className="block mb-1.5 text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">
+//               Category
+//             </label>
+//             <div className="relative">
+//               <select
+//                 value={category}
+//                 onChange={(e) => setCategory(e.target.value)}
+//                 className="w-full px-3.5 py-2.5 pr-9 rounded-[10px] bg-white/[0.025] border border-white/[0.08]
+//                   text-sm font-light outline-none appearance-none cursor-pointer
+//                   transition-all duration-150 focus:border-cyan-400/40 focus:bg-cyan-400/[0.025]
+//                   text-[#e8f0f2]"
+//                 style={{ colorScheme: 'dark' }}
+//               >
+//                 <option value="" disabled className="bg-[#0c1418] text-white/30">
+//                   Select a category...
+//                 </option>
+//                 {CATEGORIES.map((cat) => (
+//                   <option key={cat} value={cat} className="bg-[#0c1418] text-[#e8f0f2]">
+//                     {cat}
+//                   </option>
+//                 ))}
+//               </select>
+//               {/* custom chevron */}
+//               <svg
+//                 className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 stroke-white/25 pointer-events-none"
+//                 viewBox="0 0 24 24" fill="none" strokeWidth="2"
+//                 strokeLinecap="round" strokeLinejoin="round"
+//               >
+//                 <path d="M6 9l6 6 6-6" />
+//               </svg>
+//             </div>
+//           </div>
+
+//           {/* ── Content ── */}
+//           <div className="mb-4">
+//             <label className="block mb-1.5 text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">
+//               Content
+//             </label>
+//             <textarea
+//               placeholder="Tell your story in full..."
+//               value={content}
+//               onChange={(e) => setContent(e.target.value)}
+//               rows={6}
+//               maxLength={2000}
+//               className="w-full px-3.5 py-2.5 rounded-[10px] bg-white/[0.025] border border-white/[0.08]
+//                 text-[#e8f0f2] text-sm font-light placeholder:text-white/15 outline-none resize-none
+//                 leading-relaxed transition-all duration-150 focus:border-cyan-400/40 focus:bg-cyan-400/[0.025]"
+//             />
+//           </div>
+
+//           {/* ── Image Upload ── */}
+//           <div className="mb-6">
+//             <label className="block mb-1.5 text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">
+//               Cover Image
+//             </label>
+
+//             <label
+//               htmlFor="image"
+//               className="flex items-center gap-3 px-3.5 py-2.5 rounded-[10px] bg-white/[0.025]
+//                 border border-dashed border-white/10 cursor-pointer
+//                 transition-all duration-150 hover:border-cyan-400/30 hover:bg-cyan-400/[0.025] group"
+//             >
+//               <div className="w-9 h-9 flex-shrink-0 rounded-lg bg-white/[0.04] border border-white/[0.07] flex items-center justify-center">
+//                 <svg
+//                   className="w-4 h-4 stroke-white/30 group-hover:stroke-cyan-400/60 transition-colors duration-150"
+//                   viewBox="0 0 24 24" fill="none" strokeWidth="1.5"
+//                   strokeLinecap="round" strokeLinejoin="round"
+//                 >
+//                   <rect x="3" y="3" width="18" height="18" rx="3" />
+//                   <circle cx="8.5" cy="8.5" r="1.5" />
+//                   <path d="M21 15l-5-5L5 21" />
+//                 </svg>
+//               </div>
+
+//               <div className="flex-1 min-w-0">
+//                 <span className="block text-[13px] text-white/40 group-hover:text-white/55 transition-colors duration-150">
+//                   {preview ? "Image selected — click to change" : "Click to upload a cover image"}
+//                 </span>
+//                 <span className="block text-[11px] text-white/20 mt-0.5">PNG or JPG recommended</span>
+//               </div>
+
+//               {preview && (
+//                 <img
+//                   src={preview}
+//                   alt="Preview"
+//                   className="w-10 h-10 flex-shrink-0 rounded-lg object-cover border border-white/10"
+//                 />
+//               )}
+//             </label>
+
+//             <input
+//               id="image"
+//               type="file"
+//               accept="image/*"
+//               className="hidden"
+//               onChange={handleImageChange}
+//             />
+//           </div>
+
+//           {/* ── Footer ── */}
+//           <div className="flex items-center justify-between gap-3">
+//             {/* Content progress bar */}
+//             <div className="flex items-center gap-2 flex-shrink-0">
+//               <div className="w-14 h-[3px] rounded-full bg-white/[0.07] overflow-hidden">
+//                 <div
+//                   className="h-full rounded-full bg-cyan-400 transition-all duration-150"
+//                   style={{ width: `${charPercent}%` }}
+//                 />
+//               </div>
+//               <span className="text-[11px] text-white/20 whitespace-nowrap">
+//                 {content.length} / 2000
+//               </span>
+//             </div>
+
+//             <button
+//               type="submit"
+//               disabled={loading}
+//               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[9px] bg-cyan-400
+//                 text-[#05080a] text-[13px] font-medium tracking-wide
+//                 transition-all duration-150 hover:bg-cyan-300 hover:-translate-y-px active:translate-y-0
+//                 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+//             >
+//               {loading ? (
+//                 <>
+//                   <span className="w-3.5 h-3.5 rounded-full border-2 border-[#05080a]/20 border-t-[#05080a] animate-spin" />
+//                   Publishing…
+//                 </>
+//               ) : (
+//                 <>
+//                   Publish
+//                   <svg
+//                     className="w-3.5 h-3.5"
+//                     viewBox="0 0 24 24" fill="none"
+//                     stroke="#05080a" strokeWidth="2"
+//                     strokeLinecap="round" strokeLinejoin="round"
+//                   >
+//                     <path d="M22 2L11 13" />
+//                     <path d="M22 2L15 22 11 13 2 9l20-7z" />
+//                   </svg>
+//                 </>
+//               )}
+//             </button>
+//           </div>
+//         </form>
+//       </div>
+//     </>
+//   );
+// }
+
+
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import api from "../config/axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-const CATEGORIES = ['Technology', 'Culture', 'Science', 'Business', 'Design', "Environment", 'Sports'];
+const CATEGORIES = ['Technology', 'Culture', 'Science', 'Business', 'Design', 'Environment', 'Sports'];
 
 export default function CreatePostForm() {
   const [title, setTitle] = useState("");
@@ -50,24 +361,27 @@ export default function CreatePostForm() {
 
     try {
       setLoading(true);
+
       const formData = new FormData();
-      formData.append("title", title);
-      formData.append("shortDescription", shortDescription);
-      formData.append("content", content);
+      formData.append("title", title.trim());
+      formData.append("shortDescription", shortDescription.trim());
+      formData.append("content", content.trim());
       formData.append("category", category);
       formData.append("image", image);
-      console.log(formData, "check data");
 
-      const res = await api.post("/posts/create", formData, {
+      console.log(formData, "form data check");
+
+      const res = await api.post("/posts/create", title, shortDescription, content, image, category, {
         headers: { "Content-Type": "multipart/form-data" },
-      });
-      console.log(res, "response check");
 
+      });
+
+      console.log(res.data, "response check");
       toast.success("Post created successfully!");
       navigate("/");
       resetForm();
     } catch (err) {
-      console.error(err.message, "error in create");
+      console.error("Error in create:", err.response?.data || err.message);
       toast.error(err?.response?.data?.message || "Failed to create post");
     } finally {
       setLoading(false);
@@ -92,25 +406,19 @@ export default function CreatePostForm() {
               <span className="w-[5px] h-[5px] rounded-full bg-cyan-400 animate-pulse" />
               New post
             </span>
-
             <h1 className="mt-3 mb-1 text-[2rem] leading-[1.15] font-serif font-normal tracking-tight text-[#f0f4f5]">
               Share your{" "}
               <em className="italic text-cyan-400 font-serif">story</em>
             </h1>
-            <p className="text-xs text-white/30 font-light">
-              Publish a post to your feed
-            </p>
+            <p className="text-xs text-white/30 font-light">Publish a post to your feed</p>
           </div>
 
-          {/* Divider */}
           <div className="h-px bg-white/[0.06] mb-6" />
 
           {/* ── Title ── */}
           <div className="mb-4">
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">
-                Title
-              </label>
+              <label className="text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">Title</label>
               <span className="text-[10.5px] text-white/20">{title.length} / 120</span>
             </div>
             <input
@@ -128,9 +436,7 @@ export default function CreatePostForm() {
           {/* ── Short Description ── */}
           <div className="mb-4">
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">
-                Short Description
-              </label>
+              <label className="text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">Short Description</label>
               <span className="text-[10.5px] text-white/20">{shortDescription.length} / 160</span>
             </div>
             <div className="relative">
@@ -144,49 +450,32 @@ export default function CreatePostForm() {
                   text-[#e8f0f2] text-sm font-light placeholder:text-white/15 outline-none resize-none
                   leading-relaxed transition-all duration-150 focus:border-cyan-400/40 focus:bg-cyan-400/[0.025]"
               />
-              {/* mini progress bar inside field */}
               <div className="absolute bottom-2.5 right-2.5 w-10 h-[2px] rounded-full bg-white/[0.07] overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-cyan-400/60 transition-all duration-150"
-                  style={{ width: `${descPercent}%` }}
-                />
+                <div className="h-full rounded-full bg-cyan-400/60 transition-all duration-150" style={{ width: `${descPercent}%` }} />
               </div>
             </div>
-            <p className="text-[10.5px] text-white/20 mt-1.5 font-light">
-              Shown as a preview on the feed cards.
-            </p>
+            <p className="text-[10.5px] text-white/20 mt-1.5 font-light">Shown as a preview on the feed cards.</p>
           </div>
 
           {/* ── Category ── */}
           <div className="mb-4">
-            <label className="block mb-1.5 text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">
-              Category
-            </label>
+            <label className="block mb-1.5 text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">Category</label>
             <div className="relative">
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 className="w-full px-3.5 py-2.5 pr-9 rounded-[10px] bg-white/[0.025] border border-white/[0.08]
                   text-sm font-light outline-none appearance-none cursor-pointer
-                  transition-all duration-150 focus:border-cyan-400/40 focus:bg-cyan-400/[0.025]
-                  text-[#e8f0f2]"
+                  transition-all duration-150 focus:border-cyan-400/40 focus:bg-cyan-400/[0.025] text-[#e8f0f2]"
                 style={{ colorScheme: 'dark' }}
               >
-                <option value="" disabled className="bg-[#0c1418] text-white/30">
-                  Select a category...
-                </option>
+                <option value="" disabled className="bg-[#0c1418] text-white/30">Select a category...</option>
                 {CATEGORIES.map((cat) => (
-                  <option key={cat} value={cat} className="bg-[#0c1418] text-[#e8f0f2]">
-                    {cat}
-                  </option>
+                  <option key={cat} value={cat} className="bg-[#0c1418] text-[#e8f0f2]">{cat}</option>
                 ))}
               </select>
-              {/* custom chevron */}
-              <svg
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 stroke-white/25 pointer-events-none"
-                viewBox="0 0 24 24" fill="none" strokeWidth="2"
-                strokeLinecap="round" strokeLinejoin="round"
-              >
+              <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 stroke-white/25 pointer-events-none"
+                viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M6 9l6 6 6-6" />
               </svg>
             </div>
@@ -194,9 +483,7 @@ export default function CreatePostForm() {
 
           {/* ── Content ── */}
           <div className="mb-4">
-            <label className="block mb-1.5 text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">
-              Content
-            </label>
+            <label className="block mb-1.5 text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">Content</label>
             <textarea
               placeholder="Tell your story in full..."
               value={content}
@@ -211,10 +498,7 @@ export default function CreatePostForm() {
 
           {/* ── Image Upload ── */}
           <div className="mb-6">
-            <label className="block mb-1.5 text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">
-              Cover Image
-            </label>
-
+            <label className="block mb-1.5 text-[10.5px] font-medium uppercase tracking-[0.06em] text-white/40">Cover Image</label>
             <label
               htmlFor="image"
               className="flex items-center gap-3 px-3.5 py-2.5 rounded-[10px] bg-white/[0.025]
@@ -222,55 +506,33 @@ export default function CreatePostForm() {
                 transition-all duration-150 hover:border-cyan-400/30 hover:bg-cyan-400/[0.025] group"
             >
               <div className="w-9 h-9 flex-shrink-0 rounded-lg bg-white/[0.04] border border-white/[0.07] flex items-center justify-center">
-                <svg
-                  className="w-4 h-4 stroke-white/30 group-hover:stroke-cyan-400/60 transition-colors duration-150"
-                  viewBox="0 0 24 24" fill="none" strokeWidth="1.5"
-                  strokeLinecap="round" strokeLinejoin="round"
-                >
+                <svg className="w-4 h-4 stroke-white/30 group-hover:stroke-cyan-400/60 transition-colors duration-150"
+                  viewBox="0 0 24 24" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="3" width="18" height="18" rx="3" />
                   <circle cx="8.5" cy="8.5" r="1.5" />
                   <path d="M21 15l-5-5L5 21" />
                 </svg>
               </div>
-
               <div className="flex-1 min-w-0">
                 <span className="block text-[13px] text-white/40 group-hover:text-white/55 transition-colors duration-150">
                   {preview ? "Image selected — click to change" : "Click to upload a cover image"}
                 </span>
                 <span className="block text-[11px] text-white/20 mt-0.5">PNG or JPG recommended</span>
               </div>
-
               {preview && (
-                <img
-                  src={preview}
-                  alt="Preview"
-                  className="w-10 h-10 flex-shrink-0 rounded-lg object-cover border border-white/10"
-                />
+                <img src={preview} alt="Preview" className="w-10 h-10 flex-shrink-0 rounded-lg object-cover border border-white/10" />
               )}
             </label>
-
-            <input
-              id="image"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageChange}
-            />
+            <input id="image" type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
           </div>
 
           {/* ── Footer ── */}
           <div className="flex items-center justify-between gap-3">
-            {/* Content progress bar */}
             <div className="flex items-center gap-2 flex-shrink-0">
               <div className="w-14 h-[3px] rounded-full bg-white/[0.07] overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-cyan-400 transition-all duration-150"
-                  style={{ width: `${charPercent}%` }}
-                />
+                <div className="h-full rounded-full bg-cyan-400 transition-all duration-150" style={{ width: `${charPercent}%` }} />
               </div>
-              <span className="text-[11px] text-white/20 whitespace-nowrap">
-                {content.length} / 2000
-              </span>
+              <span className="text-[11px] text-white/20 whitespace-nowrap">{content.length} / 2000</span>
             </div>
 
             <button
@@ -289,14 +551,9 @@ export default function CreatePostForm() {
               ) : (
                 <>
                   Publish
-                  <svg
-                    className="w-3.5 h-3.5"
-                    viewBox="0 0 24 24" fill="none"
-                    stroke="#05080a" strokeWidth="2"
-                    strokeLinecap="round" strokeLinejoin="round"
-                  >
-                    <path d="M22 2L11 13" />
-                    <path d="M22 2L15 22 11 13 2 9l20-7z" />
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none"
+                    stroke="#05080a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 2L11 13" /><path d="M22 2L15 22 11 13 2 9l20-7z" />
                   </svg>
                 </>
               )}

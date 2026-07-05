@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import { FaPlus } from "react-icons/fa6";
 
 export default function MyPost() {
@@ -101,13 +100,7 @@ export default function MyPost() {
                                 </p>
                             </div>
 
-                            <button
-                                onClick={() => navigate("/create")}
-                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[9px] bg-cyan-400 text-[#05080a] text-[13px] font-bold font-serif tracking-wide transition-all duration-150 hover:bg-cyan-300 hover:-translate-y-px active:translate-y-0 shadow-[0_8px_24px_-8px_rgba(34,211,238,0.5)]"
-                            >
-                                <FaPlus />
-                                New Article
-                            </button>
+                            
                         </div>
 
                         <div className="h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent mt-6" />
@@ -214,7 +207,6 @@ export default function MyPost() {
                     </div>
                 </div>
             </div>
-            <Footer />
         </>
     );
 }
