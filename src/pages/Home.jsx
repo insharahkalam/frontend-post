@@ -264,7 +264,7 @@ export default function Home() {
 
             {/* ============ HERO ============ */}
             <section id="top" className="relative bg-ink text-paper pt-40 pb-28 lg:pt-48 lg:pb-36 overflow-hidden">
-                
+
                 <div
                     className="absolute inset-0 pointer-events-none opacity-[0.06]"
                     style={{
@@ -330,7 +330,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-            </section>  
+            </section>
 
             {/* ============ FEATURED ARTICLE ============ */}
             <section id="featured" className="bg-paper py-24 lg:py-32">

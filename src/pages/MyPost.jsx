@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { FaPlus } from "react-icons/fa6";
 
-export default function PostContainer() {
+export default function MyPost() {
+
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -81,7 +83,6 @@ export default function PostContainer() {
                 {/* Ambient glow */}
                 <div className="pointer-events-none absolute -top-40 -left-40 w-[500px] h-[500px] bg-cyan-400/[0.04] rounded-full blur-3xl" />
                 <div className="pointer-events-none absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-cyan-400/[0.03] rounded-full blur-3xl" />
-
                 <div className="max-w-6xl mx-auto relative">
                     {/* Header */}
                     <div className="mb-12">
@@ -213,132 +214,7 @@ export default function PostContainer() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }
-
-
-
-// import React, { useEffect, useState } from "react";
-// import api from "../config/axios";
-// import { useNavigate } from "react-router-dom";
-// import toast from "react-hot-toast";
-// import Swal from "sweetalert2";
-// import Navbar from "../components/Navbar";
-// import PostCard from "../components/Postcard";
-// import { FaPlus } from "react-icons/fa6";
-
-// export default function MyPostContainer() {
-//     const [posts, setPosts] = useState([]);
-//     const [loading, setLoading] = useState(true);
-//     const navigate = useNavigate();
-
-//     // -------- Auth Guard --------
-//     useEffect(() => {
-//         const token = localStorage.getItem("token");
-//         if (!token) {
-//             toast.error("Please login first to access this page.");
-//             navigate("/");
-//         }
-//     }, []);
-
-//     useEffect(() => {
-//         const fetchPosts = async () => {
-//             try {
-//                 const res = await api.get(`/posts/getMyPost/me`);
-//                 setPosts(res.data.myPost);
-//             } catch (err) {
-//                 console.error("Error fetching posts:", err);
-//             } finally {
-//                 setLoading(false);
-//             }
-//         };
-//         fetchPosts();
-//     }, []);
-
-//     const deletePosts = async (id) => {
-//         const result = await Swal.fire({
-//             title: "Delete this article?",
-//             text: "This action cannot be undone.",
-//             icon: "warning",
-//             showCancelButton: true,
-//             confirmButtonColor: "#E8A33D",
-//             cancelButtonColor: "#14171F",
-//             confirmButtonText: "Yes, delete it",
-//             cancelButtonText: "Cancel",
-//             background: "#F3EFE4",
-//             color: "#14171F",
-//         });
-//         if (!result.isConfirmed) return;
-
-//         try {
-//             await api.delete(`/posts/delete/${id}`);
-//             toast.success("Post deleted successfully!");
-//             setPosts((prev) => prev.filter((post) => post._id !== id));
-//         } catch (err) {
-//             toast.error("Failed to delete post");
-//         }
-//     };
-
-//     if (loading) {
-//         return (
-//             <div className="min-h-screen bg-[#F3EFE4] flex items-center justify-center">
-//                 <div className="flex flex-col items-center gap-4">
-//                     <div className="w-10 h-10 rounded-full border-2 border-[#14171F]/10 border-t-[#E8A33D] spinner" />
-//                     <p className="text-[#14171F]/40 text-[12px] font-mono tracking-widest uppercase">Fetching articles…</p>
-//                 </div>
-//             </div>
-//         );
-//     }
-
-//     return (
-//         <>
-//             <Navbar />
-//             <div className="min-h-screen bg-[#F3EFE4] px-4 py-10">
-//                 <div className="max-w-6xl mx-auto">
-//                     {/* Header */}
-//                     <div className="mb-10">
-//                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#E8A33D]/15 border border-[#E8A33D]/40 text-[#B23A2E] font-mono text-[10.5px] font-medium uppercase tracking-widest">
-//                             <span className="w-[5px] h-[5px] rounded-full bg-[#E8A33D] animate-pulse" />
-//                             Published
-//                         </span>
-
-//                         <div className="mt-3 flex items-center justify-between gap-4 flex-wrap">
-//                             <div>
-//                                 <h1 className="text-[2rem] sm:text-[2.6rem] leading-[1.1] font-display font-medium tracking-tight text-[#14171F]">
-//                                     My <em className="italic text-[#E8A33D]">Articles</em>
-//                                 </h1>
-//                                 <p className="text-xs text-[#14171F]/45 font-light mt-1">A curated collection of your published work</p>
-//                             </div>
-
-//                             <button
-//                                 onClick={() => navigate("/create")}
-//                                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E8A33D] text-[#14171F] text-[13px] font-bold tracking-wide transition-all duration-150 hover:bg-[#14171F] hover:text-[#F3EFE4] hover:-translate-y-px active:translate-y-0"
-//                             >
-//                                 <FaPlus />
-//                                 New Article
-//                             </button>
-//                         </div>
-
-//                         <div className="h-px bg-[#14171F]/10 mt-6" />
-//                     </div>
-
-//                     {/* Empty State */}
-//                     {posts.length === 0 && (
-//                         <div className="flex flex-col items-center justify-center py-20 bg-[#EAE4D4] border border-dashed border-[#14171F]/15 rounded-[20px]">
-//                             <p className="text-[#14171F]/40 text-sm font-light">Nothing published yet</p>
-//                             <p className="text-[#14171F]/25 text-[12px] mt-1">Write your first article to get started</p>
-//                         </div>
-//                     )}
-
-//                     {/* Cards Grid */}
-//                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-//                         {posts.map((post) => (
-//                             <PostCard key={post._id} post={post} onDelete={deletePosts} />
-//                         ))}
-//                     </div>
-//                 </div>
-//             </div>
-//         </>
-//     );
-// }

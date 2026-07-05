@@ -12,11 +12,11 @@ const Routing = () => {
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path='/home' element={<Home />} />
+                    <Route path='/' element={<Home />} />
                     <Route path='/create' element={<CreatePost />} />
-                    <Route path='/' element={<Post />} />
-                    <Route path="/post/:id" element={<PostDetail />} />
+                    <Route path='/post' element={<Post />} />
                     <Route path='/myPost' element={<MyPost />} />
+                    <Route path="/post/:id" element={<PostDetail />} />
                     <Route path='*' element={<ErrorPage />} />
                 </Routes>
             </BrowserRouter>
