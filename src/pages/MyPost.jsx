@@ -5,9 +5,11 @@ import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import Navbar from "../components/Navbar";
 import { FaPlus } from "react-icons/fa6";
+import Footer from "../components/Footer";
+const serif = { fontFamily: "'Fraunces', ui-serif, Georgia, serif" };
+const sans = { fontFamily: "'Inter Tight', ui-sans-serif, system-ui, sans-serif" };
 
 export default function MyPost() {
-
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -43,12 +45,20 @@ export default function MyPost() {
             text: "This action cannot be undone.",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#22d3ee",
-            cancelButtonColor: "#3a3a3a",
             confirmButtonText: "Yes, delete it",
             cancelButtonText: "Cancel",
-            background: "#0c1418",
-            color: "#e8f0f2",
+            background: "#0e0c0a",
+            color: "#f4ece0",
+            confirmButtonColor: "#fbbf24",
+            cancelButtonColor: "transparent",
+            customClass: {
+                popup: "swal-journal-popup",
+                title: "swal-journal-title",
+                htmlContainer: "swal-journal-text",
+                confirmButton: "swal-journal-confirm",
+                cancelButton: "swal-journal-cancel",
+                icon: "swal-journal-icon",
+            },
         });
         if (!result.isConfirmed) return;
 
@@ -64,12 +74,10 @@ export default function MyPost() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-[#05080a] flex items-center justify-center">
+            <div style={sans} className="min-h-screen bg-[#0e0c0a] flex items-center justify-center">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="w-10 h-10 rounded-full border-2 border-white/[0.07] border-t-cyan-400 animate-spin" />
-                    <p className="text-white/25 text-[12px] font-light tracking-widest uppercase">
-                        Fetching articles…
-                    </p>
+                    <div className="w-9 h-9 rounded-full border border-white/10 border-t-amber-300/80 animate-spin" />
+                    <p className="text-white/30 text-[11px] tracking-[0.28em] uppercase">Fetching Articles</p>
                 </div>
             </div>
         );
@@ -78,135 +86,190 @@ export default function MyPost() {
     return (
         <>
             <Navbar />
-            <div className="min-h-screen bg-[#05080a] px-4 py-10 relative overflow-hidden">
-                {/* Ambient glow */}
-                <div className="pointer-events-none absolute -top-40 -left-40 w-[500px] h-[500px] bg-cyan-400/[0.04] rounded-full blur-3xl" />
-                <div className="pointer-events-none absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-cyan-400/[0.03] rounded-full blur-3xl" />
-                <div className="max-w-6xl mx-auto relative">
+            <style>{`
+                .swal-journal-popup {
+                    border-radius: 20px !important;
+                    border: 1px solid rgba(251, 191, 36, 0.15) !important;
+                    box-shadow: 0 20px 60px -10px rgba(0,0,0,0.6) !important;
+                    font-family: 'Inter Tight', ui-sans-serif, system-ui, sans-serif !important;
+                }
+                .swal-journal-title {
+                    font-family: 'Fraunces', ui-serif, Georgia, serif !important;
+                    font-weight: 400 !important;
+                    font-style: italic !important;
+                    color: #f4ece0 !important;
+                }
+                .swal-journal-text {
+                    color: rgba(255,255,255,0.45) !important;
+                    font-weight: 300 !important;
+                    font-size: 13.5px !important;
+                }
+                .swal-journal-icon {
+                    border-color: rgba(251, 191, 36, 0.3) !important;
+                    color: #fbbf24 !important;
+                }
+                .swal-journal-confirm {
+                    border-radius: 999px !important;
+                    padding: 10px 22px !important;
+                    font-size: 13px !important;
+                    font-weight: 500 !important;
+                    letter-spacing: 0.02em !important;
+                    box-shadow: none !important;
+                    color: #0e0c0a !important;
+                }
+                .swal-journal-cancel {
+                    border-radius: 999px !important;
+                    padding: 10px 22px !important;
+                    font-size: 13px !important;
+                    font-weight: 500 !important;
+                    border: 1px solid rgba(255,255,255,0.15) !important;
+                    color: rgba(255,255,255,0.6) !important;
+                    box-shadow: none !important;
+                }
+            `}</style>
+
+            <div style={sans} className="min-h-screen bg-[#0e0c0a] px-4 sm:px-8 py-14 relative overflow-hidden">
+                {/* Ambient glows */}
+                <div className="pointer-events-none absolute -top-52 -left-40 w-[560px] h-[560px] bg-amber-500/[0.05] rounded-full blur-[120px]" />
+                <div className="pointer-events-none absolute -bottom-52 -right-40 w-[560px] h-[560px] bg-rose-500/[0.035] rounded-full blur-[120px]" />
+                <div
+                    className="pointer-events-none absolute inset-0 opacity-[0.035] mix-blend-overlay"
+                    style={{
+                        backgroundImage:
+                            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.9'/></svg>\")",
+                    }}
+                />
+
+                <div className="max-w-7xl mx-auto relative">
                     {/* Header */}
-                    <div className="mb-12">
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-cyan-400/[0.08] border border-cyan-400/20 text-cyan-300 text-[10.5px] font-medium uppercase tracking-widest">
-                            <span className="w-[5px] h-[5px] rounded-full bg-cyan-400 animate-pulse" />
-                            Published
+                    <div className="mb-14">
+                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-300/[0.07] border border-amber-300/20 text-amber-200/90 text-[10.5px] font-medium uppercase tracking-[0.28em]">
+                            <span className="w-[5px] h-[5px] rounded-full bg-amber-300 animate-pulse" />
+                            Your Desk
                         </span>
 
-                        <div className="mt-3 flex items-center justify-between gap-4 flex-wrap">
+                        <div className="mt-5 flex items-end justify-between gap-6 flex-wrap">
                             <div>
-                                <h1 className="text-[2rem] sm:text-[2.6rem] leading-[1.1] font-serif font-normal tracking-tight text-[#f0f4f5]">
-                                    My <em className="italic text-cyan-400 font-serif">Articles</em>
+                                <h1
+                                    style={{ ...serif, fontOpticalSizing: "auto", fontVariationSettings: "'SOFT' 50, 'WONK' 0" }}
+                                    className="text-[2.4rem] sm:text-[3rem] leading-[1.02] font-medium tracking-[-0.02em] text-[#f4ece0]"
+                                >
+                                    Collections of {" "}
+                                    <em
+                                        style={{ ...serif, fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}
+                                        className="italic font-normal text-amber-200/90"
+                                    >
+                                        Articles
+                                    </em>
                                 </h1>
-                                <p className="text-xs text-white/30 font-light mt-1">
-                                    A curated collection of published work
+                                <p className="text-[14px] text-white/45 font-light mt-3 leading-relaxed">
+                                    Every story you've put into words, gathered in one place.
                                 </p>
                             </div>
 
-                            
+                            <button
+                                onClick={() => navigate("/create")}
+                                style={serif}
+                                className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-amber-300/10 border border-amber-300/25 text-amber-100 text-[14px] italic hover:bg-amber-300/[0.15] hover:border-amber-300/40 transition-all duration-300"
+                            >
+                                <FaPlus className="text-[11px] not-italic" />
+                                New story
+                            </button>
                         </div>
 
-                        <div className="h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent mt-6" />
+                        <div className="h-px bg-gradient-to-r from-transparent via-amber-200/[0.12] to-transparent mt-10" />
                     </div>
 
                     {/* Empty State */}
                     {posts.length === 0 && (
-                        <div className="flex flex-col items-center justify-center py-20 bg-[#0c1418] border border-dashed border-white/[0.07] rounded-[20px]">
-                            <div className="w-12 h-12 rounded-[14px] bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-4">
-                                <svg className="w-5 h-5 stroke-white/20" viewBox="0 0 24 24" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                    <rect x="3" y="3" width="18" height="18" rx="3" />
-                                    <circle cx="8.5" cy="8.5" r="1.5" />
-                                    <path d="M21 15l-5-5L5 21" />
-                                </svg>
+                        <div className="flex flex-col items-center justify-center py-24 border border-dashed border-white/[0.08] rounded-[22px]">
+                            <div className="w-14 h-14 rounded-full bg-amber-300/[0.05] border border-amber-300/15 flex items-center justify-center mb-5">
+                                <span style={serif} className="text-amber-200/70 text-xl italic">Ø</span>
                             </div>
-                            <p className="text-white/25 text-sm font-light">Nothing published yet</p>
-                            <p className="text-white/15 text-[12px] mt-1">Write your first article to get started</p>
+                            <p style={serif} className="text-white/60 text-lg italic">Nothing published yet</p>
+                            <p className="text-white/25 text-[12px] mt-2 tracking-wide">Write your first article to get started</p>
                         </div>
                     )}
 
-                    {/* Cards Grid */}
+                    {/* Cards Grid - 4 per row */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-                        {posts.map((post) => (
-                            <article
-                                key={post._id}
-                                className="group relative flex flex-col h-full bg-gradient-to-b from-[#0d1519] to-[#080e11] border border-white/[0.06] rounded-[22px] overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.4)] hover:border-cyan-400/30 hover:shadow-[0_10px_60px_-10px_rgba(34,211,238,0.15)] transition-all duration-500 hover:-translate-y-1"
-                            >
-                                {/* Gradient glow on hover */}
-                                <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-cyan-400/[0.04] via-transparent to-transparent" />
+                        {posts.map((post) => {
+                            const dateStr = post.createdAt
+                                ? new Date(post.createdAt).toLocaleDateString(undefined, {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                })
+                                : "Recent";
 
-                                {/* Image */}
-                                <div className="relative h-56 w-full bg-[#0a1115] overflow-hidden shrink-0">
-                                    {post.image ? (
-                                        <>
-                                            <img
-                                                src={post.image}
-                                                className="w-full h-full object-cover group-hover:scale-[1.06] transition duration-700 ease-out"
-                                                alt={post.title || "post"}
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-[#0d1519] via-[#0d1519]/20 to-transparent" />
-                                        </>
-                                    ) : (
-                                        <div className="h-full flex flex-col items-center justify-center gap-2 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.04),transparent_70%)]">
-                                            <svg className="w-7 h-7 stroke-white/15" viewBox="0 0 24 24" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                                <rect x="3" y="3" width="18" height="18" rx="3" />
-                                                <circle cx="8.5" cy="8.5" r="1.5" />
-                                                <path d="M21 15l-5-5L5 21" />
-                                            </svg>
-                                            <span className="text-[11px] text-white/20 font-light">No cover image</span>
+                            return (
+                                <article
+                                    key={post._id}
+                                    className="group relative flex flex-col h-full bg-[#141210] border border-white/[0.06] rounded-[20px] p-2.5 hover:border-amber-300/25 hover:-translate-y-1 hover:shadow-[0_16px_50px_-14px_rgba(251,191,36,0.18)] transition-all duration-500"
+                                >
+                                    {/* Image */}
+                                    <div className="relative h-55 w-full bg-[#1b1613] overflow-hidden shrink-0 rounded-[14px]">
+                                        {post.image ? (
+                                            <>
+                                                <img
+                                                    src={post.image}
+                                                    className="w-full h-full object-cover group-hover:scale-[1.06] transition duration-[900ms] ease-out"
+                                                    alt={post.title || "post"}
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
+                                            </>
+                                        ) : (
+                                            <div className="h-full flex flex-col items-center justify-center gap-1 bg-[radial-gradient(circle_at_center,rgba(251,191,36,0.07),transparent_70%)]">
+                                                <span style={serif} className="text-white/15 text-2xl italic">—</span>
+                                                <span className="text-[10px] text-white/25 tracking-wide">No cover</span>
+                                            </div>
+                                        )}
+
+                                        <div className="absolute top-2 left-2 inline-flex items-center px-2 py-[3px] rounded-full bg-black/65 backdrop-blur-md border border-white/10 text-[9px] text-amber-100/90 font-medium uppercase tracking-[0.16em]">
+                                            {post.category || "Article"}
                                         </div>
-                                    )}
-
-                                    {/* Date chip overlay */}
-                                    <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/[0.08] text-[10px] text-white/70 font-light tracking-wide">
-                                        <span className="w-[5px] h-[5px] rounded-full bg-cyan-400" />
-                                        {post.createdAt
-                                            ? new Date(post.createdAt).toLocaleDateString(undefined, {
-                                                month: "short",
-                                                day: "numeric",
-                                                year: "numeric",
-                                            })
-                                            : "Recent"}
                                     </div>
-                                </div>
 
-                                {/* Content */}
-                                <div className="relative flex flex-col flex-1 p-5">
-                                    <h2 className="text-[#e8f0f2] font-serif font-normal text-[1.15rem] leading-snug line-clamp-2 group-hover:text-cyan-300 transition-colors duration-300">
-                                        {post.title || "Untitled Article"}
-                                    </h2>
-
-                                    <p className="text-white/35 text-[12.5px] font-light mt-2.5 leading-relaxed line-clamp-3 flex-1">
-                                        {post.content || "No summary available."}
-                                    </p>
-
-                                    {/* Footer */}
-                                    <div className="flex items-center justify-between mt-5 pt-4 border-t border-white/[0.05]">
-                                        <button
-                                            onClick={() => navigate(`/post/${post._id}`)}
-                                            className="inline-flex items-center gap-1 text-[11.5px] text-cyan-300/80 hover:text-cyan-300 font-medium tracking-wide transition-colors group/read"
+                                    {/* Content */}
+                                    <div className="relative flex flex-col flex-1 px-2 pt-4 pb-2">
+                                        <h2
+                                            style={{ ...serif, fontVariationSettings: "'SOFT' 40" }}
+                                            className="text-[#f4ece0] font-light text-[1.05rem] leading-[1.3] tracking-[-0.005em] line-clamp-2 group-hover:text-amber-100 transition-colors duration-300"
                                         >
-                                            Read article
-                                            <svg className="w-3 h-3 group-hover/read:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <path d="M5 12h14M13 5l7 7-7 7" />
-                                            </svg>
-                                        </button>
+                                            {post.title || "Untitled Article"}
+                                        </h2>
 
-                                        <button
-                                            onClick={() => deletePosts(post._id)}
-                                            aria-label="Delete"
-                                            className="inline-flex items-center justify-center w-8 h-8 rounded-[8px] border border-white/[0.07] text-white/30 hover:border-red-400/40 hover:text-red-300 hover:bg-red-400/[0.07] transition-all duration-200"
-                                        >
-                                            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                                                <polyline points="3 6 5 6 21 6" />
-                                                <path d="M19 6l-1 14H6L5 6" />
-                                                <path d="M10 11v6M14 11v6" />
-                                                <path d="M9 6V4h6v2" />
-                                            </svg>
-                                        </button>
+                                        <p className="text-white/40 text-[12px] font-light mt-2 leading-relaxed line-clamp-2">
+                                            {post.content || "No summary available."}
+                                        </p>
+
+                                        <span className="text-[10px] text-white/30 uppercase tracking-[0.16em] font-light mt-2.5">
+                                            {dateStr}
+                                        </span>
+
+                                        {/* Footer action */}
+                                        <div className="mt-4 pt-3 border-t border-white/[0.06]">
+                                            <button
+                                                onClick={() => deletePosts(post._id)}
+                                                className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-[10px] border border-white/[0.08] text-white/40 text-[12px] font-light tracking-wide hover:border-red-400/40 hover:text-red-300 hover:bg-red-400/[0.07] transition-all duration-200"
+                                            >
+                                                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                                    <polyline points="3 6 5 6 21 6" />
+                                                    <path d="M19 6l-1 14H6L5 6" />
+                                                    <path d="M10 11v6M14 11v6" />
+                                                    <path d="M9 6V4h6v2" />
+                                                </svg>
+                                                Delete this article
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </article>
-                        ))}
+                                </article>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }

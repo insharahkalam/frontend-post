@@ -3,6 +3,9 @@ import api from "../config/axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
+const serif = { fontFamily: "'Fraunces', ui-serif, Georgia, serif" };
+const sans = { fontFamily: "'Inter Tight', ui-sans-serif, system-ui, sans-serif" };
+
 export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
     const [tab, setTab] = useState(defaultTab); // "login" | "signup"
     const [loading, setLoading] = useState(false);
@@ -153,6 +156,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
 
     return (
         <div
+            style={sans}
             className="fixed inset-0 z-50 flex items-center justify-center px-4 py-8"
             onClick={handleClose}
         >
@@ -164,14 +168,23 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                 className="w-full max-w-[420px] relative max-h-[92vh] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden"
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
-                {/* ambient glow */}
-                <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-[420px] h-[420px] bg-cyan-400/[0.06] rounded-full blur-[110px] pointer-events-none" />
+                {/* ambient glow, consistent with hero */}
+                <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-[420px] h-[420px] bg-amber-500/[0.07] rounded-full blur-[110px] pointer-events-none" />
 
-                <div className="bg-[#0c1418] border border-white/[0.07] rounded-[20px] p-7 shadow-[0_0_60px_rgba(0,0,0,0.6)] relative">
+                <div className="relative bg-[#141210] border border-white/[0.07] rounded-[22px] p-7 shadow-[0_0_60px_rgba(0,0,0,0.6)] overflow-hidden">
+                    {/* Grain */}
+                    <div
+                        className="pointer-events-none absolute inset-0 opacity-[0.04] mix-blend-overlay"
+                        style={{
+                            backgroundImage:
+                                "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.9'/></svg>\")",
+                        }}
+                    />
+
                     {/* Close */}
                     <button
                         onClick={handleClose}
-                        className="absolute top-5 right-5 w-7 h-7 rounded-full flex items-center justify-center text-white/25 hover:text-white/50 hover:bg-white/[0.05] transition-colors duration-150"
+                        className="absolute top-5 right-5 w-7 h-7 rounded-full flex items-center justify-center text-white/25 hover:text-white/50 hover:bg-white/[0.05] transition-colors duration-150 z-10"
                     >
                         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                             <path d="M18 6L6 18M6 6l12 12" />
@@ -179,28 +192,31 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                     </button>
 
                     {/* ── Header ── */}
-                    <div className="text-center mb-6">
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-cyan-400/[0.08] border border-cyan-400/20 text-cyan-300 text-[10.5px] font-medium uppercase tracking-widest">
-                            <span className="w-[5px] h-[5px] rounded-full bg-cyan-400 animate-pulse" />
+                    <div className="relative text-center mb-6">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-300/[0.07] border border-amber-300/20 text-amber-200/90 text-[10.5px] font-medium uppercase tracking-[0.28em]">
+                            <span className="w-[5px] h-[5px] rounded-full bg-amber-300 animate-pulse" />
                             {tab === "login" ? "Welcome back" : "Join us"}
                         </span>
 
-                        <h1 className="mt-3 text-[1.9rem] leading-[1.1] font-serif font-normal tracking-tight text-[#f0f4f5]">
+                        <h1
+                            style={{ ...serif, fontVariationSettings: "'SOFT' 60, 'WONK' 0" }}
+                            className="mt-4 text-[1.9rem] leading-[1.1] font-light tracking-[-0.02em] text-[#f4ece0]"
+                        >
                             {tab === "login" ? (
-                                <>Sign <em className="italic text-cyan-400 font-serif">in</em></>
+                                <>Sign <em style={{ ...serif, fontVariationSettings: "'SOFT' 100, 'WONK' 1" }} className="italic font-normal text-amber-200/90">in</em></>
                             ) : (
-                                <>Create <em className="italic text-cyan-400 font-serif">account</em></>
+                                <>Create <em style={{ ...serif, fontVariationSettings: "'SOFT' 100, 'WONK' 1" }} className="italic font-normal text-amber-200/90">account</em></>
                             )}
                         </h1>
                     </div>
 
                     {/* ── Tab Switch ── */}
-                    <div className="flex items-center bg-[#0a1115] border border-white/[0.07] rounded-[10px] p-1 mb-7">
+                    <div className="relative flex items-center bg-white/[0.02] border border-white/[0.07] rounded-full p-1 mb-7">
                         <button
                             type="button"
                             onClick={() => switchTab("login")}
-                            className={`flex-1 py-2 rounded-[7px] text-[12.5px] font-medium tracking-wide transition-all duration-150 ${tab === "login"
-                                ? "bg-cyan-400 text-[#05080a]"
+                            className={`flex-1 py-2 rounded-full text-[12.5px] font-medium tracking-wide transition-all duration-150 ${tab === "login"
+                                ? "bg-amber-200/90 text-[#1a1410]"
                                 : "text-white/35 hover:text-white/55"
                                 }`}
                         >
@@ -209,8 +225,8 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                         <button
                             type="button"
                             onClick={() => switchTab("signup")}
-                            className={`flex-1 py-2 rounded-[7px] text-[12.5px] font-medium tracking-wide transition-all duration-150 ${tab === "signup"
-                                ? "bg-cyan-400 text-[#05080a]"
+                            className={`flex-1 py-2 rounded-full text-[12.5px] font-medium tracking-wide transition-all duration-150 ${tab === "signup"
+                                ? "bg-amber-200/90 text-[#1a1410]"
                                 : "text-white/35 hover:text-white/55"
                                 }`}
                         >
@@ -220,9 +236,9 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
 
                     {/* ── Login Form ── */}
                     {tab === "login" && (
-                        <form onSubmit={handleLogin}>
+                        <form onSubmit={handleLogin} className="relative">
                             <div className="mb-5">
-                                <label className="block text-[11px] font-medium uppercase tracking-widest text-white/30 mb-2">
+                                <label className="block text-[10.5px] font-medium uppercase tracking-[0.2em] text-white/40 mb-2">
                                     Email
                                 </label>
                                 <input
@@ -231,12 +247,12 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                                     onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
                                     placeholder="you@example.com"
                                     autoComplete="email"
-                                    className="w-full bg-[#0a1115] border border-white/[0.07] rounded-[10px] px-4 py-3 text-[14px] text-[#e8f0f2] placeholder:text-white/15 outline-none focus:border-cyan-400/40 transition-colors duration-150"
+                                    className="w-full bg-white/[0.025] border border-white/[0.08] rounded-[10px] px-4 py-3 text-[14px] text-[#f4ece0] placeholder:text-white/15 outline-none focus:border-amber-300/40 focus:bg-amber-300/[0.03] transition-colors duration-150"
                                 />
                             </div>
 
                             <div className="mb-2">
-                                <label className="block text-[11px] font-medium uppercase tracking-widest text-white/30 mb-2">
+                                <label className="block text-[10.5px] font-medium uppercase tracking-[0.2em] text-white/40 mb-2">
                                     Password
                                 </label>
                                 <div className="relative">
@@ -246,12 +262,12 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                                         onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
                                         placeholder="••••••••"
                                         autoComplete="current-password"
-                                        className="w-full bg-[#0a1115] border border-white/[0.07] rounded-[10px] px-4 py-3 pr-11 text-[14px] text-[#e8f0f2] placeholder:text-white/15 outline-none focus:border-cyan-400/40 transition-colors duration-150"
+                                        className="w-full bg-white/[0.025] border border-white/[0.08] rounded-[10px] px-4 py-3 pr-11 text-[14px] text-[#f4ece0] placeholder:text-white/15 outline-none focus:border-amber-300/40 focus:bg-amber-300/[0.03] transition-colors duration-150"
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword((p) => !p)}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-white/20 hover:text-white/40 transition-colors duration-150"
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-white/25 hover:text-white/45 transition-colors duration-150"
                                     >
                                         {showPassword ? (
                                             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -271,19 +287,17 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full mt-6 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-[9px] bg-cyan-400 text-[#05080a] text-[13.5px] font-medium tracking-wide transition-all duration-150 hover:bg-cyan-300 hover:-translate-y-px active:translate-y-0 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                                className="group w-full mt-6 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-amber-200/90 text-[#1a1410] text-[13.5px] font-medium tracking-wide transition-all duration-150 hover:bg-amber-100 disabled:opacity-40 disabled:cursor-not-allowed"
                             >
                                 {loading ? (
                                     <>
-                                        <div className="w-3.5 h-3.5 rounded-full border-2 border-[#05080a]/20 border-t-[#05080a] animate-spin" />
+                                        <div className="w-3.5 h-3.5 rounded-full border-2 border-[#1a1410]/25 border-t-[#1a1410] animate-spin" />
                                         Signing in…
                                     </>
                                 ) : (
                                     <>
                                         Sign in
-                                        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="#05080a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M5 12h14M13 5l7 7-7 7" />
-                                        </svg>
+                                        <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
                                     </>
                                 )}
                             </button>
@@ -292,15 +306,15 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
 
                     {/* ── Signup Form ── */}
                     {tab === "signup" && (
-                        <form onSubmit={handleSignup}>
+                        <form onSubmit={handleSignup} className="relative">
                             {/* Profile Image */}
                             <div className="mb-5 flex items-center gap-4">
                                 <div className="relative shrink-0">
-                                    <div className="w-14 h-14 rounded-full bg-[#0a1115] border border-white/[0.07] overflow-hidden flex items-center justify-center">
+                                    <div className="w-14 h-14 rounded-full bg-white/[0.025] border border-white/[0.08] overflow-hidden flex items-center justify-center">
                                         {imagePreview ? (
                                             <img src={imagePreview} alt="preview" className="w-full h-full object-cover" />
                                         ) : (
-                                            <svg className="w-5 h-5 stroke-white/15" viewBox="0 0 24 24" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                            <svg className="w-5 h-5 stroke-white/20" viewBox="0 0 24 24" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                                 <circle cx="12" cy="8" r="4" />
                                                 <path d="M4 20c0-4 3.5-7 8-7s8 3 8 7" />
                                             </svg>
@@ -310,7 +324,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                                         <button
                                             type="button"
                                             onClick={removeImage}
-                                            className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#0c1418] border border-white/[0.1] text-white/40 hover:text-red-300 hover:border-red-400/30 flex items-center justify-center transition-colors duration-150"
+                                            className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#141210] border border-white/[0.1] text-white/40 hover:text-rose-300 hover:border-rose-400/30 flex items-center justify-center transition-colors duration-150"
                                         >
                                             <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                                                 <path d="M18 6L6 18M6 6l12 12" />
@@ -320,7 +334,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                                 </div>
 
                                 <div className="flex-1">
-                                    <label className="inline-flex items-center gap-2 px-3.5 py-2 rounded-[8px] border border-white/[0.07] text-[12px] text-white/40 hover:border-cyan-400/30 hover:text-cyan-300 cursor-pointer transition-all duration-150">
+                                    <label className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-white/[0.08] text-[12px] text-white/40 hover:border-amber-300/30 hover:text-amber-200/90 cursor-pointer transition-all duration-150">
                                         <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                                             <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
                                             <polyline points="17 8 12 3 7 8" />
@@ -330,12 +344,12 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                                         <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
                                     </label>
                                     {/* backend requires an image, so this is not actually optional */}
-                                    <p className="text-[10.5px] text-white/15 font-light mt-1.5">Required · up to 5MB</p>
+                                    <p className="text-[10.5px] text-white/20 font-light mt-1.5">Required · up to 5MB</p>
                                 </div>
                             </div>
 
                             <div className="mb-4">
-                                <label className="block text-[11px] font-medium uppercase tracking-widest text-white/30 mb-2">
+                                <label className="block text-[10.5px] font-medium uppercase tracking-[0.2em] text-white/40 mb-2">
                                     Full name
                                 </label>
                                 <input
@@ -344,12 +358,12 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                                     onChange={(e) => setSignupForm({ ...signupForm, name: e.target.value })}
                                     placeholder="Jane Doe"
                                     autoComplete="name"
-                                    className="w-full bg-[#0a1115] border border-white/[0.07] rounded-[10px] px-4 py-3 text-[14px] text-[#e8f0f2] placeholder:text-white/15 outline-none focus:border-cyan-400/40 transition-colors duration-150"
+                                    className="w-full bg-white/[0.025] border border-white/[0.08] rounded-[10px] px-4 py-3 text-[14px] text-[#f4ece0] placeholder:text-white/15 outline-none focus:border-amber-300/40 focus:bg-amber-300/[0.03] transition-colors duration-150"
                                 />
                             </div>
 
                             <div className="mb-4">
-                                <label className="block text-[11px] font-medium uppercase tracking-widest text-white/30 mb-2">
+                                <label className="block text-[10.5px] font-medium uppercase tracking-[0.2em] text-white/40 mb-2">
                                     Email
                                 </label>
                                 <input
@@ -358,12 +372,12 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                                     onChange={(e) => setSignupForm({ ...signupForm, email: e.target.value })}
                                     placeholder="you@example.com"
                                     autoComplete="email"
-                                    className="w-full bg-[#0a1115] border border-white/[0.07] rounded-[10px] px-4 py-3 text-[14px] text-[#e8f0f2] placeholder:text-white/15 outline-none focus:border-cyan-400/40 transition-colors duration-150"
+                                    className="w-full bg-white/[0.025] border border-white/[0.08] rounded-[10px] px-4 py-3 text-[14px] text-[#f4ece0] placeholder:text-white/15 outline-none focus:border-amber-300/40 focus:bg-amber-300/[0.03] transition-colors duration-150"
                                 />
                             </div>
 
                             <div className="mb-4">
-                                <label className="block text-[11px] font-medium uppercase tracking-widest text-white/30 mb-2">
+                                <label className="block text-[10.5px] font-medium uppercase tracking-[0.2em] text-white/40 mb-2">
                                     Password
                                 </label>
                                 <div className="relative">
@@ -373,12 +387,12 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                                         onChange={(e) => setSignupForm({ ...signupForm, password: e.target.value })}
                                         placeholder="At least 6 characters"
                                         autoComplete="new-password"
-                                        className="w-full bg-[#0a1115] border border-white/[0.07] rounded-[10px] px-4 py-3 pr-11 text-[14px] text-[#e8f0f2] placeholder:text-white/15 outline-none focus:border-cyan-400/40 transition-colors duration-150"
+                                        className="w-full bg-white/[0.025] border border-white/[0.08] rounded-[10px] px-4 py-3 pr-11 text-[14px] text-[#f4ece0] placeholder:text-white/15 outline-none focus:border-amber-300/40 focus:bg-amber-300/[0.03] transition-colors duration-150"
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword((p) => !p)}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-white/20 hover:text-white/40 transition-colors duration-150"
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-white/25 hover:text-white/45 transition-colors duration-150"
                                     >
                                         {showPassword ? (
                                             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -398,19 +412,17 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full mt-6 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-[9px] bg-cyan-400 text-[#05080a] text-[13.5px] font-medium tracking-wide transition-all duration-150 hover:bg-cyan-300 hover:-translate-y-px active:translate-y-0 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                                className="group w-full mt-6 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-amber-200/90 text-[#1a1410] text-[13.5px] font-medium tracking-wide transition-all duration-150 hover:bg-amber-100 disabled:opacity-40 disabled:cursor-not-allowed"
                             >
                                 {loading ? (
                                     <>
-                                        <div className="w-3.5 h-3.5 rounded-full border-2 border-[#05080a]/20 border-t-[#05080a] animate-spin" />
+                                        <div className="w-3.5 h-3.5 rounded-full border-2 border-[#1a1410]/25 border-t-[#1a1410] animate-spin" />
                                         Creating account…
                                     </>
                                 ) : (
                                     <>
                                         Create account
-                                        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="#05080a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M5 12h14M13 5l7 7-7 7" />
-                                        </svg>
+                                        <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
                                     </>
                                 )}
                             </button>
@@ -421,4 +433,3 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
         </div>
     );
 }
-
