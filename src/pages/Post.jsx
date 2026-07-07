@@ -208,7 +208,7 @@ export default function Post() {
                                         {/* Index number with better z-index positioning */}
                                         <div
                                             style={serif}
-                                            className={`absolute top-4 text-white/[0.08] text-[5.5rem] sm:text-[6rem] leading-none font-light italic select-none pointer-events-none ${isEven ? "left-2 md:left-4" : "right-2 md:right-4"
+                                            className={`absolute -top-2 z-20 text-white/[0.08] text-[5.5rem] sm:text-[6rem] leading-none font-light italic select-none pointer-events-none ${isEven ? "left-2 md:left-4" : "right-2 md:right-4"
                                                 }`}
                                         >
                                             {String(index + 1).padStart(2, "0")}
