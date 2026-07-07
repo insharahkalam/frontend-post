@@ -30,7 +30,7 @@ export default function ArticleHero() {
                 <div className="flex items-center justify-between text-[10.5px] uppercase tracking-[0.32em] text-white/40 mb-14">
                     <span className="flex items-center gap-2">
                         <span className="w-[5px] h-[5px] rounded-full bg-amber-300 animate-pulse" />
-                        Vol. 01 · Est. 2025
+                        Vol. 01 · Est. 2026
                     </span>
                     <span className="hidden sm:inline">
                         {new Date().toLocaleDateString(undefined, {
