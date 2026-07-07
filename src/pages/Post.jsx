@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import ArticleHero from "../components/ArticleHero";
 import Footer from "../components/Footer";
+import Testimonials from "../components/Testimonials";
 
 const serif = { fontFamily: "'Fraunces', ui-serif, Georgia, serif" };
 const sans = { fontFamily: "'Inter Tight', ui-sans-serif, system-ui, sans-serif" };
@@ -299,6 +300,7 @@ export default function Post() {
                     </div>
                 </div>
             </div>
+            <Testimonials />
             <Footer />
         </>
     );

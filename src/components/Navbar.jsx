@@ -40,7 +40,7 @@ const Navbar = () => {
     };
 
     const linkClass = ({ isActive }) =>
-        `flex items-center font-medium gap-1.5 px-3.5 py-1.5 rounded-full border text-[11.5px] uppercase tracking-[0.14em] transition-all duration-150 ` +
+        `flex items-center font-medium gap-1.5 px-3.5 py-3 rounded-full border text-[11.5px] uppercase tracking-[0.14em] transition-all duration-150 ` +
         (isActive
             ? "text-amber-200 bg-amber-300/[0.08] border-amber-300/25"
             : "text-white/40 border-transparent hover:text-white/70 hover:bg-white/[0.04]");
@@ -64,13 +64,7 @@ const Navbar = () => {
 
                     {/* Nav Links */}
                     <div className="flex items-center gap-1">
-                        <NavLink to="/" end className={linkClass}>
-                            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                                <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" />
-                                <rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" />
-                            </svg>
-                            Home
-                        </NavLink>
+                        
                         <NavLink to="/mypost" className={linkClass}>
                             <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
