@@ -10,6 +10,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [authOpen, setAuthOpen] = useState(false);
     const [authTab, setAuthTab] = useState("login");
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const token = localStorage.getItem("token");
     const isLoggedIn = Boolean(token);
@@ -48,7 +49,7 @@ const Navbar = () => {
     return (
         <>
             <nav style={sans} className="sticky top-0 z-50 bg-[#0e0c0a] border-b border-white/[0.06] shadow-[0_4px_32px_rgba(0,0,0,0.5)]">
-                <div className="w-full mx-auto px-6 sm:px-10 h-16 flex items-center justify-between">
+                <div className="w-full mx-auto px-4 sm:px-6 lg:px-10 h-16 flex items-center justify-between">
 
                     {/* Logo */}
                     <NavLink to="/" className="flex items-center gap-2.5 no-underline">
@@ -63,8 +64,8 @@ const Navbar = () => {
                     </NavLink>
 
                     {/* Nav Links */}
-                    <div className="flex items-center gap-1">
-                        
+                    <div className="hidden md:flex items-center gap-1">
+
                         <NavLink to="/mypost" className={linkClass}>
                             <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -79,11 +80,44 @@ const Navbar = () => {
                             Write Articles
                         </NavLink>
                     </div>
+                    <button
+                        onClick={() => setMenuOpen(!menuOpen)}
+                        className="md:hidden w-10 h-10 flex items-center justify-center rounded-full border border-white/10 text-white"
+                    >
+                        {menuOpen ? (
+                            <svg
+                                className="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                strokeWidth="2"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        ) : (
+                            <svg
+                                className="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                strokeWidth="2"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                            </svg>
+                        )}
+                    </button>
 
 
 
-
-                    <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+                    <div className="hidden md:flex items-center  gap-2 sm:gap-2.5 shrink-0">
                         {isLoggedIn ? (
                             <>
                                 {/* User Profile - More Prominent */}
@@ -128,6 +162,112 @@ const Navbar = () => {
                     </div>
 
                 </div>
+                {menuOpen && (
+                    <div className="md:hidden border-t border-white/[0.06] bg-[#0e0c0a] px-4 py-6 space-y-2">
+
+                        <NavLink
+                            to="/mypost"
+                            onClick={() => setMenuOpen(false)}
+                            className={({ isActive }) =>
+                                `flex items-center gap-2.5 px-4 py-3 rounded-xl border text-[12px] font-medium uppercase tracking-[0.14em] transition-all duration-150 ` +
+                                (isActive
+                                    ? "text-amber-200 bg-amber-300/[0.08] border-amber-300/25"
+                                    : "text-white/50 border-transparent hover:text-white/80 hover:bg-white/[0.04]")
+                            }
+                        >
+                            <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                            My Articles
+                        </NavLink>
+
+                        <NavLink
+                            to="/create"
+                            onClick={() => setMenuOpen(false)}
+                            className={({ isActive }) =>
+                                `flex items-center gap-2.5 px-4 py-3 rounded-xl border text-[12px] font-medium uppercase tracking-[0.14em] transition-all duration-150 ` +
+                                (isActive
+                                    ? "text-amber-200 bg-amber-300/[0.08] border-amber-300/25"
+                                    : "text-white/50 border-transparent hover:text-white/80 hover:bg-white/[0.04]")
+                            }
+                        >
+                            <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                            </svg>
+                            Write Articles
+                        </NavLink>
+
+                        <div className="h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent my-3" />
+
+                        {isLoggedIn ? (
+                            <>
+                                <div className="flex items-center justify-between gap-3 px-4 py-3 rounded-xl bg-gradient-to-br from-amber-300/[0.08] to-amber-400/[0.04] border border-amber-300/20">
+
+                                    <div className="flex items-center gap-3 min-w-0">
+                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-300/[0.15] to-amber-400/[0.08] border border-amber-300/25 overflow-hidden flex items-center justify-center text-[12px] font-semibold text-amber-200 shrink-0 shadow-inner">
+                                            {userImage ? (
+                                                <img
+                                                    src={userImage}
+                                                    alt={userName || "profile"}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ) : (
+                                                initials
+                                            )}
+                                        </div>
+
+                                        <span
+                                            style={serif}
+                                            className="italic text-[15px] text-[#f4ece0] truncate"
+                                        >
+                                            {userName || "Reader"}
+                                        </span>
+                                    </div>
+
+                                    <button
+                                        onClick={() => {
+                                            handleLogout();
+                                            setMenuOpen(false);
+                                        }}
+                                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.05] border border-white/10 text-white/60 hover:text-rose-300 hover:border-rose-400/30 transition-all"
+                                    >
+                                        <svg
+                                            className="w-4 h-4"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="1.8"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                            <polyline points="16 17 21 12 16 7" />
+                                            <line x1="21" y1="12" x2="9" y2="12" />
+                                        </svg>
+                                        <span className="hidden sm:inline">Logout</span>
+                                    </button>
+
+                                </div>
+
+
+                            </>
+                        ) : (
+                            <button
+                                onClick={() => {
+                                    openAuth("signup");
+                                    setMenuOpen(false);
+                                }}
+                                className="w-full inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-gradient-to-r from-amber-200 to-amber-300 text-[#1a1410] text-[12.5px] font-extrabold italic tracking-wide hover:from-amber-100 hover:to-amber-200 transition-all duration-200 shadow-md active:scale-95"
+                            >
+                                <span>Sign in</span>
+                                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+                                </svg>
+                            </button>
+                        )}
+                    </div>
+                )}
             </nav>
 
             <AuthModal
@@ -140,6 +280,3 @@ const Navbar = () => {
 }
 
 export default Navbar
-
-
-
